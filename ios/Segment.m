@@ -9,8 +9,7 @@ RCT_EXPORT_METHOD(getFacebookAdCampaignId:(RCTPromiseResolveBlock)resolve withRe
 {
     
     RNAnalytics* rnAnalytics = [RNAnalytics sharedManager];
-
-    resolve(rnAnalytics.facebookAdCampainId);
+    resolve(rnAnalytics.facebookCampaignId);
 }
 
 @end

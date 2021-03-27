@@ -1,10 +1,10 @@
 #import <foundation/Foundation.h>
 
 @interface RNAnalytics : NSObject {
-    NSString *facebookAdCampainId;
+    NSString *facebookCampaignId;
 }
 
-@property (nonatomic, retain) NSString *facebookAdCampainId;
+@property (nonatomic, retain) NSString *facebookCampaignId;
 
 + (id)sharedManager;
 

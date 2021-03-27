@@ -2,7 +2,7 @@
 
 @implementation RNAnalytics
 
-@synthesize facebookAdCampainId;
+@synthesize facebookCampaignId;
 
 #pragma mark Singleton Methods
 
@@ -17,7 +17,7 @@
 
 - (id)init {
   if (self = [super init]) {
-      facebookAdCampainId = nil;
+      facebookCampaignId = nil;
   }
   return self;
 }

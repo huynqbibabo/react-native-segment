@@ -50,7 +50,7 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
   
   RNAnalytics* rnAnalytics = [RNAnalytics sharedManager];
-  rnAnalytics.facebookAdCampainId = @"DDASDASDAS";
+  rnAnalytics.facebookCampaignId = @"DDASDASDAS";
   
   [self.window makeKeyAndVisible];
   return YES;
