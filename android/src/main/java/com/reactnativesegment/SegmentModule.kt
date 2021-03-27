@@ -11,14 +11,13 @@ class SegmentModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
         return "Segment"
     }
 
-    // Example method
-    // See https://reactnative.dev/docs/native-modules-android
     @ReactMethod
-    fun multiply(a: Int, b: Int, promise: Promise) {
-    
-      promise.resolve(a * b)
-    
+    fun getFacebookAdCampaignId(promise: Promise) {
+      try {
+        promise.resolve(RNAnalytics.instance?.facebookCampaignId)
+      } catch (e: Exception) {
+        promise.reject("-1", null, e)
+      }
     }
 
-    
 }

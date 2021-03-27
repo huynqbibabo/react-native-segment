@@ -1,5 +1,7 @@
 package com.example.reactnativesegment;
 
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
