@@ -10,7 +10,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "Segment.h"
+#import "RNAnalytics.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -48,8 +48,10 @@ static void InitializeFlipper(UIApplication *application) {
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
-  Segment* segment = [bridge moduleForClass:[Segment class]];
-  [segment setFacebookAdCampaignId:@"dasdasdasd"];
+  
+  RNAnalytics* rnAnalytics = [RNAnalytics sharedManager];
+  rnAnalytics.facebookAdCampainId = @"DDASDASDAS";
+  
   [self.window makeKeyAndVisible];
   return YES;
 }
