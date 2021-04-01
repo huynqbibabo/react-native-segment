@@ -6,24 +6,25 @@ import analytics.internal.Utils
 import java.util.*
 
 class TrackPayload @Private internal constructor(
-  messageId: String,
-  timestamp: Date,
-  context: Map<String?, Any?>,
-  integrations: Map<String, Any>,
+//  messageId: String,
+//  timestamp: Date,
+//  context: Map<String?, Any?>,
+//  integrations: Map<String, Any>,
   userId: String?,
-  anonymousId: String,
+//  anonymousId: String,
   event: String,
-  properties: Map<String?, Any?>,
-  nanosecondTimestamps: Boolean
+  properties: Map<String?, Any?>
+//  nanosecondTimestamps: Boolean
 ) : BasePayload(
   Type.track,
-  messageId,
-  timestamp,
-  context,
-  integrations,
-  userId,
-  anonymousId,
-  nanosecondTimestamps) {
+//  messageId,
+//  timestamp,
+//  context,
+//  integrations,
+  userId
+//  anonymousId,
+//  nanosecondTimestamps
+) {
   /**
    * The name of the event. We recommend using title case and past tense for event names, like
    * "Signed Up".
@@ -76,13 +77,13 @@ class TrackPayload @Private internal constructor(
     }
 
     override fun realBuild(
-      messageId: String,
-      timestamp: Date,
-      context: Map<String?, Any?>,
-      integrations: Map<String, Any>,
-      userId: String?,
-      anonymousId: String,
-      nanosecondTimestamps: Boolean
+//      messageId: String,
+//      timestamp: Date,
+//      context: Map<String?, Any?>,
+//      integrations: Map<String, Any>,
+      userId: String?
+//      anonymousId: String,
+//      nanosecondTimestamps: Boolean
     ): TrackPayload {
       Utils.assertNotNullOrEmpty(event, "event")
       var properties = properties
@@ -90,15 +91,16 @@ class TrackPayload @Private internal constructor(
         properties = emptyMap<String?, Any>()
       }
       return TrackPayload(
-        messageId,
-        timestamp,
-        context,
-        integrations,
+//        messageId,
+//        timestamp,
+//        context,
+//        integrations,
         userId,
-        anonymousId,
+//        anonymousId,
         event!!,
-        properties!!,
-        nanosecondTimestamps)
+        properties!!
+//        nanosecondTimestamps
+      )
     }
 
     override fun self(): Builder {

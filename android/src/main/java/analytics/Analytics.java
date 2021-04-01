@@ -34,13 +34,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import analytics.integrations.AliasPayload;
 import analytics.integrations.BasePayload;
-import analytics.integrations.GroupPayload;
-import analytics.integrations.IdentifyPayload;
 import analytics.integrations.Integration;
 import analytics.integrations.Logger;
-import analytics.integrations.ScreenPayload;
 import analytics.integrations.TrackPayload;
 import analytics.internal.NanoDate;
 import analytics.internal.Private;
@@ -476,11 +472,11 @@ public class Analytics {
           traitsCache.set(traits); // Save the new traits
           analyticsContext.setTraits(traits); // Update the references
 
-          IdentifyPayload.Builder builder =
-            new IdentifyPayload.Builder()
-              .timestamp(timestamp)
-              .traits(traitsCache.get());
-          fillAndEnqueue(builder, options);
+//          IdentifyPayload.Builder builder =
+//            new IdentifyPayload.Builder()
+//              .timestamp(timestamp)
+//              .traits(traitsCache.get());
+//          fillAndEnqueue(builder, options);
         }
       });
   }
@@ -523,23 +519,20 @@ public class Analytics {
     }
     Date timestamp = this.nanosecondTimestamps ? new NanoDate() : new Date();
     analyticsExecutor.submit(
-      new Runnable() {
-        @Override
-        public void run() {
-          final Traits finalGroupTraits;
-          if (groupTraits == null) {
-            finalGroupTraits = new Traits();
-          } else {
-            finalGroupTraits = groupTraits;
-          }
-
-          GroupPayload.Builder builder =
-            new GroupPayload.Builder()
-              .timestamp(timestamp)
-              .groupId(groupId)
-              .traits(finalGroupTraits);
-          fillAndEnqueue(builder, options);
+      () -> {
+        final Traits finalGroupTraits;
+        if (groupTraits == null) {
+          finalGroupTraits = new Traits();
+        } else {
+          finalGroupTraits = groupTraits;
         }
+
+//        GroupPayload.Builder builder =
+//          new GroupPayload.Builder()
+//            .timestamp(timestamp)
+//            .groupId(groupId)
+//            .traits(finalGroupTraits);
+//        fillAndEnqueue(builder, options);
       });
   }
 
@@ -577,25 +570,22 @@ public class Analytics {
     if (isNullOrEmpty(event)) {
       throw new IllegalArgumentException("event must not be null or empty.");
     }
-    Date timestamp = this.nanosecondTimestamps ? new NanoDate() : new Date();
+//    Date timestamp = this.nanosecondTimestamps ? new NanoDate() : new Date();
     analyticsExecutor.submit(
-      new Runnable() {
-        @Override
-        public void run() {
-          final Properties finalProperties;
-          if (properties == null) {
-            finalProperties = EMPTY_PROPERTIES;
-          } else {
-            finalProperties = properties;
-          }
-
-          TrackPayload.Builder builder =
-            new TrackPayload.Builder()
-              .timestamp(timestamp)
-              .event(event)
-              .properties(finalProperties);
-          fillAndEnqueue(builder, options);
+      () -> {
+        final Properties finalProperties;
+        if (properties == null) {
+          finalProperties = EMPTY_PROPERTIES;
+        } else {
+          finalProperties = properties;
         }
+
+        TrackPayload.Builder builder =
+          new TrackPayload.Builder()
+//            .timestamp(timestamp)
+            .event(event)
+            .properties(finalProperties);
+        fillAndEnqueue(builder, options);
       });
   }
 
@@ -653,25 +643,22 @@ public class Analytics {
     }
     Date timestamp = this.nanosecondTimestamps ? new NanoDate() : new Date();
     analyticsExecutor.submit(
-      new Runnable() {
-        @Override
-        public void run() {
-          final Properties finalProperties;
-          if (properties == null) {
-            finalProperties = EMPTY_PROPERTIES;
-          } else {
-            finalProperties = properties;
-          }
-
-          //noinspection deprecation
-          ScreenPayload.Builder builder =
-            new ScreenPayload.Builder()
-              .timestamp(timestamp)
-              .name(name)
-              .category(category)
-              .properties(finalProperties);
-          fillAndEnqueue(builder, options);
+      () -> {
+        final Properties finalProperties;
+        if (properties == null) {
+          finalProperties = EMPTY_PROPERTIES;
+        } else {
+          finalProperties = properties;
         }
+
+        //noinspection deprecation
+//        ScreenPayload.Builder builder =
+//          new ScreenPayload.Builder()
+//            .timestamp(timestamp)
+//            .name(name)
+//            .category(category)
+//            .properties(finalProperties);
+//        fillAndEnqueue(builder, options);
       });
   }
 
@@ -708,18 +695,15 @@ public class Analytics {
       throw new IllegalArgumentException("newId must not be null or empty.");
     }
 
-    Date timestamp = this.nanosecondTimestamps ? new NanoDate() : new Date();
+//    Date timestamp = this.nanosecondTimestamps ? new NanoDate() : new Date();
     analyticsExecutor.submit(
-      new Runnable() {
-        @Override
-        public void run() {
-          AliasPayload.Builder builder =
-            new AliasPayload.Builder()
-              .timestamp(timestamp)
-              .userId(newId)
-              .previousId(analyticsContext.traits().currentId());
-          fillAndEnqueue(builder, options);
-        }
+      () -> {
+//        AliasPayload.Builder builder =
+//          new AliasPayload.Builder()
+//            .timestamp(timestamp)
+//            .userId(newId)
+//            .previousId(analyticsContext.traits().currentId());
+//        fillAndEnqueue(builder, options);
       });
   }
 
@@ -748,16 +732,20 @@ public class Analytics {
     }
 
     // Create a new working copy
-    AnalyticsContext contextCopy =
-      new AnalyticsContext(new LinkedHashMap<>(analyticsContext.size()));
+    AnalyticsContext contextCopy = new AnalyticsContext(new LinkedHashMap<>(analyticsContext.size()));
     contextCopy.putAll(analyticsContext);
     contextCopy.putAll(finalOptions.context());
     contextCopy = contextCopy.unmodifiableCopy();
-
-    builder.context(contextCopy);
-    builder.anonymousId(contextCopy.traits().anonymousId());
-    builder.integrations(finalOptions.integrations());
-    builder.nanosecondTimestamps(nanosecondTimestamps);
+//    contextCopy.remove("messageId");
+//    contextCopy.remove("timestamp");
+//    contextCopy.remove("context");
+//    contextCopy.remove("integrations");
+//    contextCopy.remove("anonymousId");
+//    contextCopy.remove("nanosecondTimestamps");
+//    builder.context(contextCopy);
+//    builder.anonymousId(contextCopy.traits().anonymousId());
+//    builder.integrations(finalOptions.integrations());
+//    builder.nanosecondTimestamps(nanosecondTimestamps);
     String cachedUserId = contextCopy.traits().userId();
     if (!builder.isUserIdSet() && !isNullOrEmpty(cachedUserId)) {
       // userId is not set, retrieve from cached traits and set for payload

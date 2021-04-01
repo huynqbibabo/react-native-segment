@@ -185,12 +185,12 @@ abstract class IntegrationOperation {
               case identify:
                 identify((IdentifyPayload) payload1, key, integration);
                 break;
-              case alias:
-                alias((AliasPayload) payload1, key, integration);
-                break;
-              case group:
-                group((GroupPayload) payload1, key, integration);
-                break;
+//              case alias:
+//                alias((AliasPayload) payload1, key, integration);
+//                break;
+//              case group:
+//                group((GroupPayload) payload1, key, integration);
+//                break;
               case track:
                 track(
                   (TrackPayload) payload1,
@@ -198,9 +198,9 @@ abstract class IntegrationOperation {
                   integration,
                   projectSettings);
                 break;
-              case screen:
-                screen((ScreenPayload) payload1, key, integration);
-                break;
+//              case screen:
+//                screen((ScreenPayload) payload1, key, integration);
+//                break;
               default:
                 throw new AssertionError("unknown type " + payload1.type());
             }
@@ -215,15 +215,15 @@ abstract class IntegrationOperation {
   }
 
   static void identify(IdentifyPayload identifyPayload, String key, Integration<?> integration) {
-    if (isIntegrationEnabled(identifyPayload.integrations(), key)) {
+//    if (isIntegrationEnabled(identifyPayload.integrations(), key)) {
       integration.identify(identifyPayload);
-    }
+//    }
   }
 
   static void group(GroupPayload groupPayload, String key, Integration<?> integration) {
-    if (isIntegrationEnabled(groupPayload.integrations(), key)) {
+//    if (isIntegrationEnabled(groupPayload.integrations(), key)) {
       integration.group(groupPayload);
-    }
+//    }
   }
 
   static void track(
@@ -231,14 +231,14 @@ abstract class IntegrationOperation {
     String key,
     Integration<?> integration,
     ProjectSettings projectSettings) {
-    ValueMap integrationOptions = trackPayload.integrations();
+//    ValueMap integrationOptions = trackPayload.integrations();
 
     ValueMap trackingPlan = projectSettings.trackingPlan();
     if (isNullOrEmpty(trackingPlan)) {
       // No tracking plan, use options provided.
-      if (isIntegrationEnabled(integrationOptions, key)) {
+//      if (isIntegrationEnabled(integrationOptions, key)) {
         integration.track(trackPayload);
-      }
+//      }
       return;
     }
 
@@ -246,13 +246,13 @@ abstract class IntegrationOperation {
 
     ValueMap eventPlan = trackingPlan.getValueMap(event);
     if (isNullOrEmpty(eventPlan)) {
-      if (!isNullOrEmpty(integrationOptions)) {
-        // No event plan, use options provided.
-        if (isIntegrationEnabled(integrationOptions, key)) {
-          integration.track(trackPayload);
-        }
-        return;
-      }
+//      if (!isNullOrEmpty(integrationOptions)) {
+//        // No event plan, use options provided.
+//        if (isIntegrationEnabled(integrationOptions, key)) {
+//          integration.track(trackPayload);
+//        }
+//        return;
+//      }
 
       // Use schema defaults if no options are provided.
       ValueMap defaultPlan = trackingPlan.getValueMap("__default");
@@ -287,23 +287,23 @@ abstract class IntegrationOperation {
     if (!isNullOrEmpty(eventIntegrations)) {
       integrations.putAll(eventIntegrations);
     }
-    integrations.putAll(integrationOptions);
+//    integrations.putAll(integrationOptions);
     if (isIntegrationEnabled(integrations, key)) {
       integration.track(trackPayload);
     }
   }
 
-  static void screen(ScreenPayload screenPayload, String key, Integration<?> integration) {
-    if (isIntegrationEnabled(screenPayload.integrations(), key)) {
-      integration.screen(screenPayload);
-    }
-  }
-
-  static void alias(AliasPayload aliasPayload, String key, Integration<?> integration) {
-    if (isIntegrationEnabled(aliasPayload.integrations(), key)) {
-      integration.alias(aliasPayload);
-    }
-  }
+//  static void screen(ScreenPayload screenPayload, String key, Integration<?> integration) {
+//    if (isIntegrationEnabled(screenPayload.integrations(), key)) {
+//      integration.screen(screenPayload);
+//    }
+//  }
+//
+//  static void alias(AliasPayload aliasPayload, String key, Integration<?> integration) {
+//    if (isIntegrationEnabled(aliasPayload.integrations(), key)) {
+//      integration.alias(aliasPayload);
+//    }
+//  }
 
   static final IntegrationOperation FLUSH =
     new IntegrationOperation() {

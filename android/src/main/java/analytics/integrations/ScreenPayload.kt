@@ -6,25 +6,26 @@ import analytics.internal.Utils
 import java.util.*
 
 class ScreenPayload @Private internal constructor(
-  messageId: String,
-  timestamp: Date,
-  context: Map<String?, Any?>,
-  integrations: Map<String, Any>,
-  userId: String?,
-  anonymousId: String,
-  name: String?,
-  category: String?,
-  properties: Map<String?, Any?>,
-  nanosecondTimestamps: Boolean
+//  messageId: String,
+//  timestamp: Date,
+//  context: Map<String?, Any?>,
+//  integrations: Map<String, Any>,
+  userId: String?
+//  anonymousId: String,
+//  name: String?,
+//  category: String?,
+//  properties: Map<String?, Any?>,
+//  nanosecondTimestamps: Boolean
 ) : BasePayload(
   Type.screen,
-  messageId,
-  timestamp,
-  context,
-  integrations,
-  userId,
-  anonymousId,
-  nanosecondTimestamps) {
+//  messageId,
+//  timestamp,
+//  context,
+//  integrations,
+  userId
+//  anonymousId,
+//  nanosecondTimestamps
+) {
   /** The category of the page or screen. We recommend using title case, like "Docs".  */
   @Deprecated("")
   fun category(): String? {
@@ -91,13 +92,13 @@ class ScreenPayload @Private internal constructor(
     }
 
     override fun realBuild(
-      messageId: String,
-      timestamp: Date,
-      context: Map<String?, Any?>,
-      integrations: Map<String, Any>,
-      userId: String?,
-      anonymousId: String,
-      nanosecondTimestamps: Boolean
+//      messageId: String,
+//      timestamp: Date,
+//      context: Map<String?, Any?>,
+//      integrations: Map<String, Any>,
+      userId: String?
+//      anonymousId: String,
+//      nanosecondTimestamps: Boolean
     ): ScreenPayload {
       if (Utils.isNullOrEmpty(name) && Utils.isNullOrEmpty(category)) {
         throw NullPointerException("either name or category is required")
@@ -107,16 +108,17 @@ class ScreenPayload @Private internal constructor(
         properties = emptyMap<String?, Any>()
       }
       return ScreenPayload(
-        messageId,
-        timestamp,
-        context,
-        integrations,
-        userId,
-        anonymousId,
-        name,
-        category,
-        properties!!,
-        nanosecondTimestamps)
+//        messageId,
+//        timestamp,
+//        context,
+//        integrations,
+        userId
+//        anonymousId,
+//        name,
+//        category,
+//        properties!!,
+//        nanosecondTimestamps
+      )
     }
 
     override fun self(): Builder {
@@ -131,12 +133,12 @@ class ScreenPayload @Private internal constructor(
   }
 
   init {
-    if (!Utils.isNullOrEmpty(name)) {
-      put(NAME_KEY, name)
-    }
-    if (!Utils.isNullOrEmpty(category)) {
-      put(CATEGORY_KEY, category)
-    }
-    put(PROPERTIES_KEY, properties)
+//    if (!Utils.isNullOrEmpty(name)) {
+//      put(NAME_KEY, name)
+//    }
+//    if (!Utils.isNullOrEmpty(category)) {
+//      put(CATEGORY_KEY, category)
+//    }
+//    put(PROPERTIES_KEY, properties)
   }
 }

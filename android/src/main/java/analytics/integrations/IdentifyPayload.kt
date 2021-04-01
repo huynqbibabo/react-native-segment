@@ -6,23 +6,24 @@ import analytics.internal.Utils
 import java.util.*
 
 class IdentifyPayload internal constructor(
-  messageId: String,
-  timestamp: Date,
-  context: Map<String?, Any?>,
-  integrations: Map<String, Any>,
-  userId: String?,
-  anonymousId: String,
-  traits: Map<String?, Any?>,
-  nanosecondTimestamps: Boolean
+//  messageId: String,
+//  timestamp: Date,
+//  context: Map<String?, Any?>,
+//  integrations: Map<String, Any>,
+  userId: String?
+//  anonymousId: String,
+//  traits: Map<String?, Any?>,
+//  nanosecondTimestamps: Boolean
 ) : BasePayload(
   Type.identify,
-  messageId,
-  timestamp,
-  context,
-  integrations,
-  userId,
-  anonymousId,
-  nanosecondTimestamps) {
+//  messageId,
+//  timestamp,
+//  context,
+//  integrations,
+  userId
+//  anonymousId,
+//  nanosecondTimestamps
+) {
   /**
    * A dictionary of traits you know about a user, for example email or name. We have a collection
    * of special traits that we recognize with semantic meaning, which you should always use when
@@ -64,19 +65,28 @@ class IdentifyPayload internal constructor(
       return this
     }
 
-    override fun realBuild(messageId: String, timestamp: Date, context: Map<String?, Any?>, integrations: Map<String, Any>, userId: String?, anonymousId: String, nanosecondTimestamps: Boolean): IdentifyPayload? {
+    override fun realBuild(
+//      messageId: String,
+//      timestamp: Date,
+//      context: Map<String?, Any?>,
+//      integrations: Map<String, Any>,
+      userId: String?
+//      anonymousId: String,
+//      nanosecondTimestamps: Boolean
+    ): IdentifyPayload? {
       if (Utils.isNullOrEmpty(userId) && Utils.isNullOrEmpty(traits)) {
         throw NullPointerException("either userId or traits are required")
       }
       return IdentifyPayload(
-        messageId,
-        timestamp,
-        context,
-        integrations,
-        userId,
-        anonymousId,
-        traits!!,
-        nanosecondTimestamps)
+//        messageId,
+//        timestamp,
+//        context,
+//        integrations,
+        userId
+//        anonymousId,
+//        traits!!,
+//        nanosecondTimestamps
+      )
     }
   }
 
@@ -85,6 +95,6 @@ class IdentifyPayload internal constructor(
   }
 
   init {
-    put(TRAITS_KEY, traits)
+//    put(TRAITS_KEY, traits)
   }
 }

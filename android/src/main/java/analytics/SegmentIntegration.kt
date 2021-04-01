@@ -107,15 +107,15 @@ internal class SegmentIntegration(
     // Override any user provided values with anything that was bundled.
     // e.g. If user did Mixpanel: true and it was bundled, this would correctly override it with
     // false so that the server doesn't send that event as well.
-    val providedIntegrations = original.integrations()
-    val combinedIntegrations = LinkedHashMap<String, Any>(providedIntegrations.size + bundledIntegrations.size)
-    combinedIntegrations.putAll(providedIntegrations)
-    combinedIntegrations.putAll(bundledIntegrations)
-    combinedIntegrations.remove("Segment.io") // don't include the Segment integration.
+//    val providedIntegrations = original.integrations()
+//    val combinedIntegrations = LinkedHashMap<String, Any>(providedIntegrations.size + bundledIntegrations.size)
+//    combinedIntegrations.putAll(providedIntegrations)
+//    combinedIntegrations.putAll(bundledIntegrations)
+//    combinedIntegrations.remove("Segment.io") // don't include the Segment integration.
     // Make a copy of the payload so we don't mutate the original.
     val payload = ValueMap()
     payload.putAll(original)
-    payload["integrations"] = combinedIntegrations
+//    payload["integrations"] = combinedIntegrations
     if (payloadQueue.size() >= MAX_QUEUE_SIZE) {
       synchronized(flushLock) {
         // Double checked locking, the network executor could have removed payload from the
@@ -170,8 +170,7 @@ internal class SegmentIntegration(
     }
     if (networkExecutor.isShutdown) {
       logger.info(
-        "A call to flush() was made after shutdown() has been called." +
-          " In-flight events may not be uploaded right away.")
+        "A call to flush() was made after shutdown() has been called.  In-flight events may not be uploaded right away.")
       return
     }
     networkExecutor.submit { synchronized(flushLock) { performFlush() } }

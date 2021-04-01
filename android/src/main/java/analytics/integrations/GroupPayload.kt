@@ -6,24 +6,25 @@ import analytics.internal.Utils
 import java.util.*
 
 class GroupPayload @Private constructor(
-  messageId: String,
-  timestamp: Date,
-  context: Map<String?, Any?>,
-  integrations: Map<String, Any>,
-  userId: String?,
-  anonymousId: String,
-  groupId: String,
-  traits: Map<String?, Any?>,
-  nanosecondTimestamps: Boolean
+//  messageId: String,
+//  timestamp: Date,
+//  context: Map<String?, Any?>,
+//  integrations: Map<String, Any>,
+  userId: String?
+//  anonymousId: String,
+//  groupId: String,
+//  traits: Map<String?, Any?>,
+//  nanosecondTimestamps: Boolean
 ) : BasePayload(
   Type.group,
-  messageId,
-  timestamp,
-  context,
-  integrations,
-  userId,
-  anonymousId,
-  nanosecondTimestamps) {
+//  messageId
+//  timestamp,
+//  context,
+//  integrations,
+  userId
+//  anonymousId,
+//  nanosecondTimestamps
+) {
   /**
    * A unique identifier that refers to the group in your database. For example, if your product
    * groups people by "organization" you would use the organization's ID in your database as the
@@ -73,13 +74,13 @@ class GroupPayload @Private constructor(
     }
 
     override fun realBuild(
-      messageId: String,
-      timestamp: Date,
-      context: Map<String?, Any?>,
-      integrations: Map<String, Any>,
-      userId: String?,
-      anonymousId: String,
-      nanosecondTimestamps: Boolean
+//      messageId: String,
+//      timestamp: Date,
+//      context: Map<String?, Any?>,
+//      integrations: Map<String, Any>,
+      userId: String?
+//      anonymousId: String,
+//      nanosecondTimestamps: Boolean
     ): GroupPayload {
       Utils.assertNotNullOrEmpty(groupId, "groupId")
       var traits = traits
@@ -87,15 +88,16 @@ class GroupPayload @Private constructor(
         traits = emptyMap<String?, Any>()
       }
       return GroupPayload(
-        messageId,
-        timestamp,
-        context,
-        integrations,
-        userId,
-        anonymousId,
-        groupId!!,
-        traits!!,
-        nanosecondTimestamps)
+//        messageId,
+//        timestamp,
+//        context,
+//        integrations,
+        userId
+//        anonymousId,
+//        groupId!!,
+//        traits!!,
+//        nanosecondTimestamps
+      )
     }
 
     override fun self(): Builder {
@@ -109,7 +111,7 @@ class GroupPayload @Private constructor(
   }
 
   init {
-    put(GROUP_ID_KEY, groupId)
-    put(TRAITS_KEY, traits)
+//    put(GROUP_ID_KEY, groupId)
+//    put(TRAITS_KEY, traits)
   }
 }

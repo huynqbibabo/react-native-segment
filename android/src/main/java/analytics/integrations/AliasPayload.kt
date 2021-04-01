@@ -5,23 +5,24 @@ import analytics.internal.Utils
 import java.util.*
 
 class AliasPayload @Private internal constructor(
-  messageId: String,
-  timestamp: Date,
-  context: Map<String?, Any?>,
-  integrations: Map<String, Any>,
+//  messageId: String,
+//  timestamp: Date,
+//  context: Map<String?, Any?>,
+//  integrations: Map<String, Any>,
   userId: String?,
-  anonymousId: String,
-  previousId: String,
-  nanosecondTimestamps: Boolean
+//  anonymousId: String,
+  previousId: String
+//  nanosecondTimestamps: Boolean
 ) : BasePayload(
   Type.alias,
-  messageId,
-  timestamp,
-  context,
-  integrations,
-  userId,
-  anonymousId,
-  nanosecondTimestamps) {
+//  messageId,
+//  timestamp,
+//  context,
+//  integrations,
+  userId
+//  anonymousId,
+//  nanosecondTimestamps
+) {
   /**
    * The previous ID for the user that you want to alias from, that you previously called identify
    * with as their user ID, or the anonymous ID if you haven't identified the user yet.
@@ -57,25 +58,26 @@ class AliasPayload @Private internal constructor(
     }
 
     override fun realBuild(
-      messageId: String,
-      timestamp: Date,
-      context: Map<String?, Any?>,
-      integrations: Map<String, Any>,
-      userId: String?,
-      anonymousId: String,
-      nanosecondTimestamps: Boolean
+//      messageId: String,
+//      timestamp: Date,
+//      context: Map<String?, Any?>,
+//      integrations: Map<String, Any>,
+      userId: String?
+//      anonymousId: String,
+//      nanosecondTimestamps: Boolean
     ): AliasPayload {
       Utils.assertNotNullOrEmpty(userId, "userId")
       Utils.assertNotNullOrEmpty(previousId, "previousId")
       return AliasPayload(
-        messageId,
-        timestamp,
-        context,
-        integrations,
+//        messageId,
+//        timestamp,
+//        context,
+//        integrations,
         userId,
-        anonymousId,
-        previousId!!,
-        nanosecondTimestamps)
+//        anonymousId,
+        previousId!!
+//        nanosecondTimestamps
+      )
     }
 
     override fun self(): Builder {
