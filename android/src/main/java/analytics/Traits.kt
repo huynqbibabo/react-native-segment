@@ -328,8 +328,7 @@ class Traits : ValueMap {
     }
   }
 
-  class Cache(
-    context: Context?, cartographer: Cartographer?, tag: String) : ValueMap.Cache<Traits>(context, cartographer, TRAITS_CACHE_PREFIX + tag, tag, Traits::class.java) {
+  internal class Cache(context: Context?, cartographer: Cartographer?, tag: String) : ValueMap.Cache<Traits>(context, cartographer, TRAITS_CACHE_PREFIX + tag, tag, Traits::class.java) {
     public override fun create(map: Map<String, Any>): Traits {
       // Analytics client can be called on any thread, so this instance should be thread safe.
       return Traits(NullableConcurrentHashMap(map))

@@ -2,4 +2,6 @@
 
 @interface Segment : NSObject <RCTBridgeModule>
 
++(void)addIntegration:(id)factory;
+
 @end

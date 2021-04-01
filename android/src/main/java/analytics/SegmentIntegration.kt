@@ -139,7 +139,7 @@ internal class SegmentIntegration(
       val cos = crypto.encrypt(bos)
       cartographer.toJson(payload, OutputStreamWriter(cos))
       val bytes = bos.toByteArray()
-      if ((bytes == null) || (bytes.isEmpty()) || (bytes.size > MAX_PAYLOAD_SIZE)) {
+      if (bytes.isEmpty() || (bytes.size > MAX_PAYLOAD_SIZE)) {
         throw IOException("Could not serialize payload $payload")
       }
       payloadQueue.add(bytes)
@@ -170,11 +170,11 @@ internal class SegmentIntegration(
     }
     if (networkExecutor.isShutdown) {
       logger.info(
-        "A call to flush() was made after shutdown() has been called.  In-flight events may not be uploaded right away.")
+        "A call to flush() was made after shutdown() has been called." +
+          " In-flight events may not be uploaded right away.")
       return
     }
-    networkExecutor.submit(
-      Runnable { synchronized(flushLock) { performFlush() } })
+    networkExecutor.submit { synchronized(flushLock) { performFlush() } }
   }
 
   private fun shouldFlush(): Boolean {

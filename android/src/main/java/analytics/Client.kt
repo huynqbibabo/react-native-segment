@@ -37,11 +37,13 @@ class Client(private val writeKey: String, private val connectionFactory: Connec
   /**
    * Wraps an HTTP connection. Callers can either read from the connection via the [ ] or write to the connection via [OutputStream].
    */
-  internal abstract class Connection(connection: HttpURLConnection?, `is`: InputStream?, os: OutputStream?) : Closeable {
+  abstract class Connection(connection: HttpURLConnection?, `is`: InputStream?, os: OutputStream?) : Closeable {
     private val connection: HttpURLConnection
     val `is`: InputStream?
+
     @JvmField
     val os: OutputStream?
+
     @Throws(IOException::class)
     override fun close() {
       connection.disconnect()
@@ -56,6 +58,7 @@ class Client(private val writeKey: String, private val connectionFactory: Connec
   }
 
   companion object {
+    const val TAG = "Client"
     @Throws(IOException::class)
     private fun createPostConnection(connection: HttpURLConnection): Connection {
       val outputStream: OutputStream
@@ -71,14 +74,15 @@ class Client(private val writeKey: String, private val connectionFactory: Connec
         override fun close() {
           try {
             val responseCode = connection.responseCode
-            if (responseCode >= 200) {
-//                    if (responseCode >= 300) {
+            Log.i(TAG, "requestProperties: $responseCode")
+            if (responseCode >= HttpURLConnection.HTTP_OK) { // 200
+//            if (responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) { // 300
               var responseBody: String
               var inputStream: InputStream? = null
               try {
                 inputStream = Utils.getInputStream(connection)
                 responseBody = Utils.readFully(inputStream)
-                Log.i("TAG", "close: $responseBody")
+                Log.i("TAG", "responseBody: $responseBody")
               } catch (e: IOException) {
                 responseBody = ("Could not read response body for rejected message: "
                   + e.toString())

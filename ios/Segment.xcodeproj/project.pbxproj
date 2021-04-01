@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-
-		5E555C0D2413F4C50049A1A2 /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* Segment.m */; };
-		F4FF95D7245B92E800C19C63 /*  Segment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /*  Segment.swift */; };
-
+		F4FF95D7245B92E800C19C63 /* Segment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* Segment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,11 +24,14 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libSegment.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSegment.a; sourceTree = BUILT_PRODUCTS_DIR; };
-
+		984A218126157B9700ED0322 /* RNAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNAnalytics.m; sourceTree = "<group>"; };
+		984A218226157B9700ED0322 /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Classes; sourceTree = "<group>"; };
+		984A218326157B9700ED0322 /* Internal */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Internal; sourceTree = "<group>"; };
+		984A218426157B9700ED0322 /* RNAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNAnalytics.h; sourceTree = "<group>"; };
+		984A218526157B9700ED0322 /* Segment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* Segment-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Segment-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4FF95D6245B92E800C19C63 /* Segment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segment.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,11 +56,14 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-
+				984A218226157B9700ED0322 /* Classes */,
+				984A218326157B9700ED0322 /* Internal */,
+				984A218426157B9700ED0322 /* RNAnalytics.h */,
+				984A218126157B9700ED0322 /* RNAnalytics.m */,
+				984A218526157B9700ED0322 /* Segment.h */,
 				F4FF95D6245B92E800C19C63 /* Segment.swift */,
 				B3E7B5891CC2AC0600A0062D /* Segment.m */,
 				F4FF95D5245B92E700C19C63 /* Segment-Bridging-Header.h */,
-
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -122,10 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
 				F4FF95D7245B92E800C19C63 /* Segment.swift in Sources */,
-				B3E7B58A1CC2AC0600A0062D /* Segment.m in Sources */,
-
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,11 +238,9 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Segment;
 				SKIP_INSTALL = YES;
-
 				SWIFT_OBJC_BRIDGING_HEADER = "Segment-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Debug;
 		};
@@ -259,10 +257,8 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Segment;
 				SKIP_INSTALL = YES;
-
 				SWIFT_OBJC_BRIDGING_HEADER = "Segment-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Release;
 		};

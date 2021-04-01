@@ -1,6 +1,5 @@
 package analytics
 
-import android.util.Base64
 import com.reactnativesegment.BuildConfig
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -13,7 +12,7 @@ import java.net.URL
  */
 open class ConnectionFactory {
   private fun authorizationHeader(writeKey: String): String {
-    return "Basic " + Base64.encodeToString("$writeKey:".toByteArray(), Base64.NO_WRAP)
+    return "Bearer $writeKey"
   }
   //    /** Return a {@link HttpURLConnection} that reads JSON formatted project settings. */
   //    public HttpURLConnection projectSettings(String writeKey) throws IOException {
@@ -28,6 +27,7 @@ open class ConnectionFactory {
     val connection = openConnection(String.format("https://%s", apiHost))
     connection.setRequestProperty("Authorization", "Bearer $writeKey")
 //    connection.setRequestProperty("Content-Encoding", "gzip")
+    connection.setRequestProperty("Content-Type", "application/json");
     connection.doOutput = true
     connection.setChunkedStreamingMode(0)
     return connection
