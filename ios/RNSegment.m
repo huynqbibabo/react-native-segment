@@ -1,4 +1,5 @@
-#import "Segment.h"
+#import "RNSegment.h"
+#import "SEGFacebook.h"
 #import "Classes/SEGAnalytics.h"
 #import <React/RCTBridge.h>
 
@@ -7,7 +8,7 @@ static NSLock* RNAnalyticsIntegrationsLock = nil;
 static NSString* RNAnalyticsAdvertisingId = nil;
 static BOOL RNAnalyaticsUseAdvertisingId = NO;
 
-@implementation Segment
+@implementation RNSegment
 
 +(void)addIntegration:(id)factory {
     [RNAnalyticsIntegrationsLock lock];
@@ -17,7 +18,7 @@ static BOOL RNAnalyaticsUseAdvertisingId = NO;
 
 +(void)initialize {
     [super initialize];
-    
+
     RNAnalyticsIntegrations = [NSMutableSet new];
     RNAnalyticsIntegrationsLock = [NSLock new];
 }
@@ -34,86 +35,86 @@ RCT_EXPORT_METHOD(
                   :(RCTPromiseRejectBlock)rejecter
                   ) {
     NSString* json = options[@"json"];
-    
+
     if(singletonJsonConfig != nil) {
         if([json isEqualToString:singletonJsonConfig]) {
             return resolver(nil);
         }
         else {
-#if DEBUG
-            return resolver(self);
-#else
-            return rejecter(@"E_SEGMENT_RECONFIGURED", @"Segment Analytics Client was allocated multiple times, please check your environment.", nil);
-#endif
+            #if DEBUG
+                return resolver(self);
+            #else
+                return rejecter(@"E_SEGMENT_RECONFIGURED", @"Segment Analytics Client was allocated multiple times, please check your environment.", nil);
+            #endif
         }
     }
-    
+
     SEGAnalyticsConfiguration* config = [SEGAnalyticsConfiguration configurationWithWriteKey:options[@"writeKey"]];
-    
+
     config.recordScreenViews = [options[@"recordScreenViews"] boolValue];
     config.trackApplicationLifecycleEvents = [options[@"trackAppLifecycleEvents"] boolValue];
     config.flushAt = [options[@"flushAt"] integerValue];
     config.enableAdvertisingTracking = RNAnalyaticsUseAdvertisingId = [options[@"ios"][@"trackAdvertising"] boolValue];
     config.defaultSettings = options[@"defaultProjectSettings"];
-    
+
     // set this block regardless.  the data will come in after the fact most likely.
     config.adSupportBlock = ^NSString * _Nonnull{
         return RNAnalyticsAdvertisingId;
     };
-    
+
     if ([options valueForKey:@"proxy"]) {
         NSDictionary *proxyOptions = (NSDictionary *)[options valueForKey:@"proxy"];
-        
+
         config.requestFactory = ^(NSURL *url) {
             NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
-            
+
             if ([proxyOptions valueForKey:@"scheme"]) {
                 components.scheme = proxyOptions[@"scheme"];
             }
-            
+
             if ([proxyOptions valueForKey:@"host"]) {
                 components.host = proxyOptions[@"host"];
             }
-            
+
             if ([proxyOptions valueForKey:@"port"]) {
                 components.port = [NSNumber numberWithInt:[proxyOptions[@"port"] intValue]];
             }
-            
+
             if ([proxyOptions valueForKey:@"path"]) {
                 components.path = [proxyOptions[@"path"] stringByAppendingString:components.path];
             }
-            
+
             NSURL *transformedURL = components.URL;
             return [NSMutableURLRequest requestWithURL:transformedURL];
         };
     }
-    
+
     for(id factory in RNAnalyticsIntegrations) {
         [config use:factory];
     }
-    
+
     [SEGAnalytics debug:[options[@"debug"] boolValue]];
-    
+
     @try {
         [SEGAnalytics setupWithConfiguration:config];
     }
     @catch(NSError* error) {
         return rejecter(@"E_SEGMENT_ERROR", @"Unexpected native Analtyics error", error);
     }
-    
+
     // On iOS we use method swizzling to intercept lifecycle events
     // However, React-Native calls our library after applicationDidFinishLaunchingWithOptions: is called
     // We fix this by manually calling this method at setup-time
     // TODO(fathyb): We should probably implement a dedicated API on the native part
     if(config.trackApplicationLifecycleEvents) {
         SEL selector = @selector(_applicationDidFinishLaunchingWithOptions:);
-        
+
         if ([SEGAnalytics.sharedAnalytics respondsToSelector:selector]) {
             [SEGAnalytics.sharedAnalytics performSelector:selector
                                                withObject:_bridge.launchOptions];
         }
     }
-    
+
     singletonJsonConfig = json;
     return resolver(nil);
 }
@@ -184,6 +185,16 @@ RCT_EXPORT_METHOD(
 {
     NSString *anonymousId = [SEGAnalytics.sharedAnalytics getAnonymousId];
     resolver(anonymousId);
+}
+
+RCT_EXPORT_METHOD(getFacebookCampaignId:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try {
+        SEGFacebook* rnAnalytics = [SEGFacebook sharedManager];
+        resolve(rnAnalytics.facebookCampaignId);
+    } @catch (NSException *exception) {
+        resolve(NULL);
+    }
 }
 
 

@@ -265,8 +265,8 @@ public class Analytics {
           //   ...defaultProjectSettings
           //   integrations: {
           //     ...defaultProjectSettings.integrations
-          //     Segment.io: {
-          //       ...defaultProjectSettings.integrations.Segment.io
+          //     webhook_bibabo: {
+          //       ...defaultProjectSettings.integrations.webhook_bibabo
           //       apiKey: "{writeKey}",
           //       apiHost: "{defaultApiHost}"
           //     }
@@ -277,18 +277,18 @@ public class Analytics {
           }
           if (!defaultProjectSettings
             .getValueMap("integrations")
-            .containsKey("Segment.io")) {
+            .containsKey("webhook_bibabo")) {
             defaultProjectSettings
               .getValueMap("integrations")
-              .put("Segment.io", new ValueMap());
+              .put("webhook_bibabo", new ValueMap());
           }
           if (!defaultProjectSettings
             .getValueMap("integrations")
-            .getValueMap("Segment.io")
+            .getValueMap("webhook_bibabo")
             .containsKey("apiKey")) {
             defaultProjectSettings
               .getValueMap("integrations")
-              .getValueMap("Segment.io")
+              .getValueMap("webhook_bibabo")
               .putValue("apiKey", Analytics.this.writeKey);
           }
           projectSettings = ProjectSettings.create(defaultProjectSettings);
@@ -300,13 +300,13 @@ public class Analytics {
         boolean apiHostSet =
           projectSettings
             .getValueMap("integrations")
-            .getValueMap("Segment.io")
+            .getValueMap("webhook_bibabo")
             .containsKey("apiHost");
         if (!apiHostSet) {
           // Use default apiHost region
           projectSettings
             .getValueMap("integrations")
-            .getValueMap("Segment.io")
+            .getValueMap("webhook_bibabo")
             .putValue("apiHost", defaultApiHost);
         }
         HANDLER.post(
@@ -1416,7 +1416,7 @@ public class Analytics {
 
     /**
      * Set the apiHost name for the region to which Segment sends events to. Defaults to
-     * "api.segment.io/v1"
+     * "api.webhook_bibabo/v1"
      */
     public Builder defaultApiHost(String apiHost) {
       this.defaultApiHost = apiHost;

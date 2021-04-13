@@ -97,8 +97,8 @@ NS_ASSUME_NONNULL_END
 {
     NSMutableDictionary *dict = [integrations ?: @{} mutableCopy];
     for (NSString *integration in self.analytics.bundledIntegrations) {
-        // Don't record Segment.io in the dictionary. It is always enabled.
-        if ([integration isEqualToString:@"Segment.io"]) {
+        // Don't record webhook_bibabo in the dictionary. It is always enabled.
+        if ([integration isEqualToString:@"webhook_bibabo"]) {
             continue;
         }
         dict[integration] = @NO;

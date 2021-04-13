@@ -3,18 +3,20 @@
 #import "SEGAnalyticsUtils.h"
 #import "SEGUtils.h"
 
-#define SEGMENT_CDN_BASE [NSURL URLWithString:@"http://segment.bbbnet.xyz/api/v1/log-event"]
+#define SEGMENT_CDN_BASE [NSURL URLWithString:@"https://segment.bibabo.vn/api/v1"]
 
 static const NSUInteger kMaxBatchSize = 475000; // 475KB
 
-NSString * const kSegmentAPIBaseHost = @"http://segment.bbbnet.xyz/api/v1/log-event";
+NSString * const kSegmentAPIBaseHost = @"https://segment.bibabo.vn/api/v1";
 
 @implementation SEGHTTPClient
 
 + (NSMutableURLRequest * (^)(NSURL *))defaultRequestFactory
 {
     return ^(NSURL *url) {
-        return [NSMutableURLRequest requestWithURL:url];
+        return [NSMutableURLRequest requestWithURL:url
+                                       cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                   timeoutInterval:10.0];
     };
 }
 
@@ -29,11 +31,8 @@ NSString * const kSegmentAPIBaseHost = @"http://segment.bbbnet.xyz/api/v1/log-ev
 - (instancetype)initWithRequestFactory:(SEGRequestFactory)requestFactory
 {
     if (self = [self init]) {
-        if (requestFactory == nil) {
-            self.requestFactory = [SEGHTTPClient defaultRequestFactory];
-        } else {
-            self.requestFactory = requestFactory;
-        }
+        self.requestFactory = [SEGHTTPClient defaultRequestFactory];
+        
         _sessionsByWriteKey = [NSMutableDictionary dictionary];
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
         config.HTTPAdditionalHeaders = @{
@@ -51,11 +50,8 @@ NSString * const kSegmentAPIBaseHost = @"http://segment.bbbnet.xyz/api/v1/log-ev
     if (!session) {
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
         config.HTTPAdditionalHeaders = @{
-            @"Accept-Encoding" : @"gzip",
-            @"Content-Encoding" : @"gzip",
-            @"Content-Type" : @"application/json",
-            @"Authorization" : [@"Bearer " stringByAppendingString:[[self class] authorizationHeader:writeKey]],
-            @"User-Agent" : [NSString stringWithFormat:@"analytics-ios/%@", [SEGAnalytics version]],
+            @"Authorization": [@"Bearer " stringByAppendingString:[[self class] authorizationHeader:writeKey]],
+            @"Content-Type": @"application/json"
         };
         session = [NSURLSession sessionWithConfiguration:config delegate:self.httpSessionDelegate delegateQueue:NULL];
         self.sessionsByWriteKey[writeKey] = session;
@@ -72,18 +68,13 @@ NSString * const kSegmentAPIBaseHost = @"http://segment.bbbnet.xyz/api/v1/log-ev
 }
 
 
-- (nullable NSURLSessionUploadTask *)upload:(NSDictionary *)batch forWriteKey:(NSString *)writeKey completionHandler:(void (^)(BOOL retry))completionHandler
+- (nullable NSURLSessionDataTask *)upload:(NSDictionary *)batch forWriteKey:(NSString *)writeKey completionHandler:(void (^)(BOOL retry))completionHandler
 {
     //    batch = SEGCoerceDictionary(batch);
     NSURLSession *session = [self sessionForWriteKey:writeKey];
 
-    NSURL *url = [[SEGUtils getAPIHostURL] URLByAppendingPathComponent:@"batch"];
+    NSURL *url = [[SEGUtils getAPIHostURL] URLByAppendingPathComponent:@"log-event"];
     NSMutableURLRequest *request = self.requestFactory(url);
-
-    // This is a workaround for an IOS 8.3 bug that causes Content-Type to be incorrectly set
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
-    [request setHTTPMethod:@"POST"];
 
     NSError *error = nil;
     NSException *exception = nil;
@@ -104,16 +95,33 @@ NSString * const kSegmentAPIBaseHost = @"http://segment.bbbnet.xyz/api/v1/log-ev
         completionHandler(NO);
         return nil;
     }
-    NSData *gzippedPayload = [payload seg_gzippedData];
-
-    NSURLSessionUploadTask *task = [session uploadTaskWithRequest:request fromData:gzippedPayload completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+    //    NSData *gzippedPayload = [payload seg_gzippedData];
+    
+    
+    //    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    
+    //    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+    //      cachePolicy:NSURLRequestUseProtocolCachePolicy
+    //      timeoutInterval:10.0];
+    NSDictionary *headers = @{
+        @"Authorization": [@"Bearer " stringByAppendingString:[[self class] authorizationHeader:writeKey]],
+        @"Content-Type": @"application/json"
+    };
+    
+    [request setAllHTTPHeaderFields:headers];
+    NSData *postData = [[NSData alloc] initWithData:payload];
+    [request setHTTPBody:postData];
+    
+    [request setHTTPMethod:@"POST"];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
         if (error) {
             // Network error. Retry.
             SEGLog(@"Error uploading request %@.", error);
             completionHandler(YES);
             return;
         }
-
+        
         NSInteger code = ((NSHTTPURLResponse *)response).statusCode;
         if (code < 300) {
             // 2xx response codes. Don't retry.
@@ -127,10 +135,10 @@ NSString * const kSegmentAPIBaseHost = @"http://segment.bbbnet.xyz/api/v1/log-ev
             return;
         }
         if (code == 429) {
-          // 429 response codes. Retry.
-          SEGLog(@"Server limited client with response code %d.", code);
-          completionHandler(YES);
-          return;
+            // 429 response codes. Retry.
+            SEGLog(@"Server limited client with response code %d.", code);
+            completionHandler(YES);
+            return;
         }
         if (code < 500) {
             // non-429 4xx response codes. Don't retry.
@@ -138,46 +146,10 @@ NSString * const kSegmentAPIBaseHost = @"http://segment.bbbnet.xyz/api/v1/log-ev
             completionHandler(NO);
             return;
         }
-
+        
         // 5xx response codes. Retry.
         SEGLog(@"Server error with HTTP code %d.", code);
         completionHandler(YES);
-    }];
-    [task resume];
-    return task;
-}
-
-- (NSURLSessionDataTask *)settingsForWriteKey:(NSString *)writeKey completionHandler:(void (^)(BOOL success, JSON_DICT _Nullable settings))completionHandler
-{
-    NSURLSession *session = self.genericSession;
-
-    NSURL *url = [SEGMENT_CDN_BASE URLByAppendingPathComponent:[NSString stringWithFormat:@"/projects/%@/settings", writeKey]];
-    NSMutableURLRequest *request = self.requestFactory(url);
-    [request setHTTPMethod:@"GET"];
-
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
-        if (error != nil) {
-            SEGLog(@"Error fetching settings %@.", error);
-            completionHandler(NO, nil);
-            return;
-        }
-
-        NSInteger code = ((NSHTTPURLResponse *)response).statusCode;
-        if (code > 300) {
-            SEGLog(@"Server responded with unexpected HTTP code %d.", code);
-            completionHandler(NO, nil);
-            return;
-        }
-
-        NSError *jsonError = nil;
-        id responseJson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-        if (jsonError != nil) {
-            SEGLog(@"Error deserializing response body %@.", jsonError);
-            completionHandler(NO, nil);
-            return;
-        }
-
-        completionHandler(YES, responseJson);
     }];
     [task resume];
     return task;

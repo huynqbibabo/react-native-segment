@@ -75,8 +75,8 @@ class Client(private val writeKey: String, private val connectionFactory: Connec
           try {
             val responseCode = connection.responseCode
             Log.i(TAG, "requestProperties: $responseCode")
-            if (responseCode >= HttpURLConnection.HTTP_OK) { // 200
-//            if (responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) { // 300
+//            if (responseCode >= HttpURLConnection.HTTP_OK) { // 200
+            if (responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) { // 300
               var responseBody: String
               var inputStream: InputStream? = null
               try {

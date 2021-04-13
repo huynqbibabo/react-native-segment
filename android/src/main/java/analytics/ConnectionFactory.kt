@@ -20,7 +20,7 @@ open class ConnectionFactory {
   //                "https://cdn-settings.segment.com/v1/projects/" + writeKey + "/settings");
   //    }
   /**
-   * Return a [HttpURLConnection] that writes batched payloads to `https://api.segment.io/v1/import`.
+   * Return a [HttpURLConnection] that writes batched payloads to `https://api.webhook_bibabo/v1/import`.
    */
   @Throws(IOException::class)
   fun upload(apiHost: String?, writeKey: String): HttpURLConnection {

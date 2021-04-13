@@ -1,6 +1,6 @@
 #import <React/RCTBridgeModule.h>
 
-@interface Segment : NSObject <RCTBridgeModule>
+@interface RNSegment : NSObject <RCTBridgeModule>
 
 +(void)addIntegration:(id)factory;
 

@@ -10,7 +10,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "RNAnalytics.h"
+#import "SEGFacebook.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -49,8 +49,8 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   
-  RNAnalytics* rnAnalytics = [RNAnalytics sharedManager];
-  rnAnalytics.facebookCampaignId = @"DDASDASDAS";
+  SEGFacebook* rnAnalytics = [SEGFacebook sharedManager];
+  rnAnalytics.facebookCampaignId = @"465341254682";
   
   [self.window makeKeyAndVisible];
   return YES;

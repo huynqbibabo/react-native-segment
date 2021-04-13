@@ -257,7 +257,7 @@ NSUInteger const kSEGBackgroundTaskInvalid = 0;
 {
     NSMutableDictionary *dict = [integrations ?: @{} mutableCopy];
     for (NSString *integration in self.analytics.bundledIntegrations) {
-        // Don't record Segment.io in the dictionary. It is always enabled.
+        // Don't record in the dictionary. It is always enabled.
         if ([integration isEqualToString:@"Segment.io"]) {
             continue;
         }
@@ -284,6 +284,13 @@ NSUInteger const kSEGBackgroundTaskInvalid = 0;
         [payload setValue:[self integrationsDictionary:integrations] forKey:@"integrations"];
 
         [payload setValue:[context copy] forKey:@"context"];
+        
+        [payload removeObjectForKey:@"context"];
+        [payload removeObjectForKey:@"integrations"];
+        [payload removeObjectForKey:@"anonymousId"];
+        [payload removeObjectForKey:@"timestamp"];
+        [payload removeObjectForKey:@"messageId"];
+        [payload removeObjectForKey:@"type"];
 
         SEGLog(@"%@ Enqueueing action: %@", self, payload);
         
@@ -336,7 +343,6 @@ NSUInteger const kSEGBackgroundTaskInvalid = 0;
     
     [self dispatchBackground:^{
         if ([self.queue count] == 0) {
-            SEGLog(@"%@ No queued API calls to flush.", self);
             [self endBackgroundTask];
             return;
         }
@@ -378,8 +384,8 @@ NSUInteger const kSEGBackgroundTaskInvalid = 0;
 - (void)notifyForName:(NSString *)name userInfo:(id)userInfo
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:name object:userInfo];
-        SEGLog(@"sent notification %@", name);
+//        [[NSNotificationCenter defaultCenter] postNotificationName:name object:userInfo];
+//        SEGLog(@"sent notification %@", name);
     });
 }
 

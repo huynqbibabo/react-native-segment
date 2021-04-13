@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import analytics from 'react-native-segment';
+import segment from 'react-native-segment';
+import type { Segment } from 'react-native-segment';
 
 const Button = ({ title, onPress }: { title: string; onPress: () => void }) => (
   <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -8,34 +9,36 @@ const Button = ({ title, onPress }: { title: string; onPress: () => void }) => (
   </TouchableOpacity>
 );
 
-const flush = () => analytics.flush();
+const flush = () => segment.flush();
 
 const pizzaEaten = () => {
-  analytics.track('post_view', { postId: 123456 });
+  segment.track('post_view', {
+    postId: 9999,
+    groupId: 9696,
+    topicIds: '96,69,96,69',
+  });
 };
 
 const trackOrder = () => {
-  // analytics.track('Order Completed');
-  // analytics.track('Order Cancelled', {
-  //   order_id: 323,
-  // });
-  // analytics.identify('userIdOnly');
-  // analytics.identify(123456789, {
-  //   age: 32,
-  // });
-  // analytics.alias('newlyAliasedId');
-  // analytics.screen('User Login Screen', {
-  //   method: 'google',
-  // });
+  segment.track('product_view', {
+    productId: 123456,
+    categoryId: 3333,
+  });
 };
 
 const logAnonymousId = async () => {
-  console.log('anonymousId: %s', await analytics.getAnonymousId());
+  segment.track('add_to_cart', {
+    productId: 123456,
+    categoryId: 3333,
+  });
 };
 
 export default class App extends Component {
   componentDidMount() {
-    analytics.identify('9999');
+    segment.getFacebookCampaignId().then((id) => {
+      console.log(id);
+    });
+    segment.identify('9999');
   }
 
   render() {
@@ -73,13 +76,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#32A75D',
   },
 });
+const integrations: Segment.Integration[] = [];
 
-analytics
+segment
   .setup(
-    'eyJDVCI6MCwiQ0kiOjEsIlVJIjozMjc4LCJTRSI6IjE1Nzk0OTA4MjgxNjE5MDU3In0',
+    'eyJDVCI6MCwiQ0kiOjEsIlVJIjo4Mzg1NzksIlNFIjoiMTYxODIwOTY0MzE4NTQ3MjEifQ',
     {
       debug: true,
-      using: [],
+      using: integrations,
       flushAt: 3,
       proxy: {
         host: 'segment.bbbnet.xyz',

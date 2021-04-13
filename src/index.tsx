@@ -3,7 +3,7 @@ import { configure } from './configuration';
 import { Middleware, MiddlewareChain } from './middleware';
 import { ErrorHandler, NativeWrapper } from './wrapper';
 
-export module Analytics {
+export module Segment {
   export type Integration = (() => PromiseLike<void>) | { disabled: true };
 
   export interface Configuration {
@@ -411,6 +411,13 @@ export module Analytics {
       return Bridge.getAnonymousId();
     }
 
+    /** Retrieve the Facebook Ad Campaign Id. */
+    public async getFacebookCampaignId(): Promise<string | null> {
+      await this.wrapper.wait();
+
+      return Bridge.getFacebookCampaignId();
+    }
+
     private handleError(error: Error) {
       const { handlers } = this;
 
@@ -424,5 +431,5 @@ export module Analytics {
   }
 }
 
-export default new Analytics.Client();
+export default new Segment.Client();
 export { Configuration, JsonMap } from './bridge';

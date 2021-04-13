@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 class SegmentModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
   override fun getName(): String {
-    return "Segment"
+    return "RNSegment"
   }
   private val analytics
     get() = Analytics.with(reactApplicationContext)
@@ -252,6 +252,14 @@ class SegmentModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
   @ReactMethod
   fun getAnonymousId(promise: Promise) =
     promise.resolve(analytics.analyticsContext.traits().anonymousId())
+  @ReactMethod
+  fun getFacebookCampaignId(promise: Promise) {
+    try {
+      promise.resolve(Facebook.instance?.facebookCampaignId)
+    } catch (e: Exception) {
+      promise.reject("-1", null, e)
+    }
+  }
 }
 
 private fun optionsFrom(context: ReadableMap?, integrations: ReadableMap?): Options {

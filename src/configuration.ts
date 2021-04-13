@@ -1,5 +1,5 @@
 import type { Configuration } from './bridge';
-import type { Analytics } from './index';
+import type { Segment } from './index';
 
 const defaults = {
   android: ({
@@ -31,7 +31,7 @@ export const configure = async (
 
     ios = {},
     android = {},
-  }: Analytics.Configuration
+  }: Segment.Configuration
 ): Promise<Configuration> => {
   await Promise.all(
     using.map(async (integration: any) =>

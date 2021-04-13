@@ -21,7 +21,7 @@
 
 - (NSString *)key
 {
-    return @"Segment.io";
+    return @"webhook_bibabo";
 }
 
 @end

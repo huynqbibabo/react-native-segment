@@ -39,7 +39,8 @@ const NSString *segment_apiHost = @"segment_apihost";
     if (!result) {
         result = kSegmentAPIBaseHost;
     }
-    return result;
+    
+    return [result stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 }
 
 + (nullable NSURL *)getAPIHostURL

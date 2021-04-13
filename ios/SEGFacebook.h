@@ -1,6 +1,6 @@
 #import <foundation/Foundation.h>
 
-@interface RNAnalytics : NSObject {
+@interface SEGFacebook : NSObject {
     NSString *facebookCampaignId;
 }
 

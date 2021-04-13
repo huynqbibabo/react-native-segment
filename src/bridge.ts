@@ -81,10 +81,11 @@ export interface Bridge {
   enable(): Promise<void>;
   disable(): Promise<void>;
   getAnonymousId(): Promise<string>;
+  getFacebookCampaignId(): Promise<string | null>;
   setIDFA(idfa: string): Promise<void>;
 }
 
-const bridge: Bridge = NativeModules.Segment;
+const bridge: Bridge = NativeModules.RNSegment;
 
 if (!bridge) {
   throw new Error('Failed to load Analytics native module.');

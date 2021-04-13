@@ -1,13 +1,13 @@
-#import "RNAnalytics.h"
+#import "SEGFacebook.h"
 
-@implementation RNAnalytics
+@implementation SEGFacebook
 
 @synthesize facebookCampaignId;
 
 #pragma mark Singleton Methods
 
 + (id)sharedManager {
-    static RNAnalytics *sharedMyManager = nil;
+    static SEGFacebook *sharedMyManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedMyManager = [[self alloc] init];

@@ -30,7 +30,7 @@
 #import "SEGUtils.h"
 #import "SEGState.h"
 
-NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
+NSString *SEGAnalyticsIntegrationDidStart = @"segment.analytics.integration.did.start";
 NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 NSString *const kSEGAnonymousIdFilename = @"segment.anonymousId";
 NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
@@ -322,7 +322,7 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
     if (!anonymousId || reset) {
         // We've chosen to generate a UUID rather than use the UDID (deprecated in iOS 5),
         // identifierForVendor (iOS6 and later, can't be changed on logout),
-        // or MAC address (blocked in iOS 7). For more info see https://segment.io/libraries/ios#ids
+        // or MAC address (blocked in iOS 7). For more info see https://api/libraries/ios#ids
         anonymousId = GenerateUUIDString();
         SEGLog(@"New anonymousId: %@", anonymousId);
 #if TARGET_OS_TV
@@ -396,7 +396,7 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 - (void)updateIntegrationsWithSettings:(NSDictionary *)projectSettings
 {
     // see if we have a new segment API host and set it.
-    NSString *apiHost = projectSettings[@"Segment.io"][@"apiHost"];
+    NSString *apiHost = projectSettings[@"webhook_bibabo"][@"apiHost"];
     if (apiHost) {
         [SEGUtils saveAPIHost:apiHost];
     }
@@ -445,7 +445,7 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 {
     return @{
         @"integrations" : @{
-            @"Segment.io" : @{
+            @"webhook_bibabo" : @{
                     @"apiKey" : self.configuration.writeKey,
                     @"apiHost" : [SEGUtils getAPIHost]
             },
@@ -469,23 +469,23 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
             return;
         }
 
-        self.settingsRequest = [self.httpClient settingsForWriteKey:self.configuration.writeKey completionHandler:^(BOOL success, NSDictionary *settings) {
-            seg_dispatch_specific_async(self -> _serialQueue, ^{
-                if (success) {
-                    [self setCachedSettings:settings];
-                    [self configureEdgeFunctions:settings];
-                } else {
+//        self.settingsRequest = [self.httpClient settingsForWriteKey:self.configuration.writeKey completionHandler:^(BOOL success, NSDictionary *settings) {
+//            seg_dispatch_specific_async(self -> _serialQueue, ^{
+//                if (success) {
+//                    [self setCachedSettings:settings];
+//                    [self configureEdgeFunctions:settings];
+//                } else {
                     NSDictionary *previouslyCachedSettings = [self cachedSettings];
                     if (previouslyCachedSettings && [previouslyCachedSettings count] > 0) {
                         [self setCachedSettings:previouslyCachedSettings];
                         [self configureEdgeFunctions:previouslyCachedSettings];
                     } else if (self.configuration.defaultSettings != nil) {
                         // If settings request fail, load a user-supplied version if present.
-                        // but make sure segment.io is in the integrations
+                        // but make sure webhook_bibabo is in the integrations
                         NSMutableDictionary *newSettings = [self.configuration.defaultSettings serializableMutableDeepCopy];
                         NSMutableDictionary *integrations = newSettings[@"integrations"];
                         if (integrations != nil) {
-                            integrations[@"Segment.io"] = @{@"apiKey": self.configuration.writeKey, @"apiHost": [SEGUtils getAPIHost]};
+                            integrations[@"webhook_bibabo"] = @{@"apiKey": self.configuration.writeKey, @"apiHost": [SEGUtils getAPIHost]};
                         } else {
                             newSettings[@"integrations"] = @{@"integrations": @{@"apiKey": self.configuration.writeKey, @"apiHost": [SEGUtils getAPIHost]}};
                         }
@@ -498,10 +498,10 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
                         [self setCachedSettings:[self defaultSettings]];
                         // don't configure edge functions here.  it'll do the right thing on it's own.
                     }
-                }
-                self.settingsRequest = nil;
-            });
-        }];
+//                }
+//                self.settingsRequest = nil;
+//            });
+//        }];
     });
 }
 
@@ -509,8 +509,8 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 
 + (BOOL)isIntegration:(NSString *)key enabledInOptions:(NSDictionary *)options
 {
-    // If the event is in the tracking plan, it should always be sent to api.segment.io.
-    if ([@"Segment.io" isEqualToString:key]) {
+    // If the event is in the tracking plan, it should always be sent to webhook_bibabo.
+    if ([@"webhook_bibabo" isEqualToString:key]) {
         return YES;
     }
     if (options[key]) {
@@ -539,8 +539,8 @@ NSString *const kSEGCachedSettingsFilename = @"analytics.settings.v2.plist";
 
 + (BOOL)isTrackEvent:(NSString *)event enabledForIntegration:(NSString *)key inPlan:(NSDictionary *)plan
 {
-    // Whether the event is enabled or disabled, it should always be sent to api.segment.io.
-    if ([key isEqualToString:@"Segment.io"]) {
+    // Whether the event is enabled or disabled, it should always be sent to api.webhook_bibabo.
+    if ([key isEqualToString:@"webhook_bibabo"]) {
         return YES;
     }
 

@@ -37,7 +37,7 @@ internal class SegmentIntegration(
 ) : Integration<Void?>() {
   private val handler: Handler
   private val segmentThread: HandlerThread
-  private val flushScheduler: ScheduledExecutorService
+  private val flushScheduler: ScheduledExecutorService = Executors.newScheduledThreadPool(1, AnalyticsThreadFactory())
   private val apiHost: String
 
   /**
@@ -111,7 +111,7 @@ internal class SegmentIntegration(
 //    val combinedIntegrations = LinkedHashMap<String, Any>(providedIntegrations.size + bundledIntegrations.size)
 //    combinedIntegrations.putAll(providedIntegrations)
 //    combinedIntegrations.putAll(bundledIntegrations)
-//    combinedIntegrations.remove("Segment.io") // don't include the Segment integration.
+//    combinedIntegrations.remove("webhook_bibabo") // don't include the Segment integration.
     // Make a copy of the payload so we don't mutate the original.
     val payload = ValueMap()
     payload.putAll(original)
@@ -409,7 +409,7 @@ internal class SegmentIntegration(
     val UTF_8: Charset = Charset.forName("UTF-8")
     private const val SEGMENT_THREAD_NAME = Utils.THREAD_PREFIX + "SegmentDispatcher"
 
-    const val SEGMENT_KEY = "Segment.io"
+    const val SEGMENT_KEY = "webhook_bibabo"
 
     /**
      * Create a [QueueFile] in the given folder with the given name. If the underlying file is
@@ -464,7 +464,6 @@ internal class SegmentIntegration(
   }
 
   init {
-    flushScheduler = Executors.newScheduledThreadPool(1, AnalyticsThreadFactory())
     this.crypto = crypto
     this.apiHost = apiHost
     segmentThread = HandlerThread(SEGMENT_THREAD_NAME, Process.THREAD_PRIORITY_BACKGROUND)
