@@ -182,7 +182,7 @@ class Cartographer internal constructor(private val isLenient: Boolean, private 
       var i = 0
       val size = Array.getLength(array)
       while (i < size) {
-        writeValue(Array.get(array, i), writer)
+        writeValue(Array.get(array, i)!!, writer)
         i++
       }
       writer.endArray()
@@ -194,7 +194,7 @@ class Cartographer internal constructor(private val isLenient: Boolean, private 
      * @throws IOException
      */
     @Throws(IOException::class)
-    private fun writeValue(value: Any, writer: JsonWriter) {
+    private fun writeValue(value: Any?, writer: JsonWriter) {
       var value: Any? = value
       when {
         value == null -> {

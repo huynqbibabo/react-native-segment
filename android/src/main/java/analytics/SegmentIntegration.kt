@@ -340,7 +340,7 @@ internal class SegmentIntegration(
     }
   }
 
-  internal class SegmentDispatcherHandler(looper: Looper?, private val segmentIntegration: SegmentIntegration) : Handler(looper) {
+  internal class SegmentDispatcherHandler(looper: Looper?, private val segmentIntegration: SegmentIntegration) : Handler(looper!!) {
     override fun handleMessage(msg: Message) {
       when (msg.what) {
         REQUEST_ENQUEUE -> {
@@ -419,7 +419,7 @@ internal class SegmentIntegration(
     @Throws(IOException::class)
     fun createQueueFile(folder: File?, name: String?): QueueFile {
       Utils.createDirectory(folder)
-      val file = File(folder, name)
+      val file = File(folder, name!!)
       return QueueFile(file)
     }
 

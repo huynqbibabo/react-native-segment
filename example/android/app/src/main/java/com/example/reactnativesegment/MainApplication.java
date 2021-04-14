@@ -10,6 +10,7 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Objects;
 
 import com.reactnativesegment.Facebook;
 import com.reactnativesegment.SegmentPackage;
@@ -47,7 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    Facebook.Companion.getInstance().setFacebookCampaignId("465341254682");
+    Objects.requireNonNull(Facebook.Companion.getInstance()).setFacebookCampaignId("465341254682");
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
   }
