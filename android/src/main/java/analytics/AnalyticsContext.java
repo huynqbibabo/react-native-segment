@@ -12,8 +12,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.reactnativesegment.BuildConfig;
-
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -239,7 +237,7 @@ public class AnalyticsContext extends ValueMap {
     void putLibrary() {
         Map<String, Object> library = createMap();
         library.put(LIBRARY_NAME_KEY, "analytics-android");
-        library.put(LIBRARY_VERSION_KEY, BuildConfig.VERSION_NAME);
+        library.put(LIBRARY_VERSION_KEY, "1.0");
         put(LIBRARY_KEY, library);
     }
 

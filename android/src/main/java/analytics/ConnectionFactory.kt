@@ -1,6 +1,5 @@
 package analytics
 
-import com.reactnativesegment.BuildConfig
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
@@ -55,6 +54,6 @@ open class ConnectionFactory {
   companion object {
     private const val DEFAULT_READ_TIMEOUT_MILLIS = 20 * 1000 // 20s
     private const val DEFAULT_CONNECT_TIMEOUT_MILLIS = 15 * 1000 // 15s
-    const val USER_AGENT = "analytics-android/" + BuildConfig.VERSION_NAME
+    const val USER_AGENT = "analytics-android/1.0"
   }
 }

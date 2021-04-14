@@ -49,19 +49,6 @@ android {
   }
 }
 
-ext {
-  versionCode = 1
-  versionName = "1.0"
-
-  minSdkVersion = 14
-  targetSdkVersion = 29
-  compileSdkVersion = 29
-
-  sourceCompatibilityVersion = JavaVersion.VERSION_1_8
-  targetCompatibilityVersion = JavaVersion.VERSION_1_8
-
-}
-
 repositories {
   mavenCentral()
   jcenter()
