@@ -14,21 +14,15 @@ import android.view.WindowManager;
 
 import com.reactnativesegment.BuildConfig;
 
-import analytics.integrations.Logger;
-import analytics.internal.Private;
-
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.CountDownLatch;
 
-import static android.Manifest.permission.ACCESS_NETWORK_STATE;
-import static android.content.Context.CONNECTIVITY_SERVICE;
-import static android.content.Context.TELEPHONY_SERVICE;
-import static android.net.ConnectivityManager.TYPE_BLUETOOTH;
-import static android.net.ConnectivityManager.TYPE_MOBILE;
-import static android.net.ConnectivityManager.TYPE_WIFI;
+import analytics.integrations.Logger;
+import analytics.internal.Private;
+
 import static analytics.internal.Utils.NullableConcurrentHashMap;
 import static analytics.internal.Utils.createMap;
 import static analytics.internal.Utils.getDeviceId;
@@ -36,6 +30,12 @@ import static analytics.internal.Utils.getSystemService;
 import static analytics.internal.Utils.hasPermission;
 import static analytics.internal.Utils.isNullOrEmpty;
 import static analytics.internal.Utils.isOnClassPath;
+import static android.Manifest.permission.ACCESS_NETWORK_STATE;
+import static android.content.Context.CONNECTIVITY_SERVICE;
+import static android.content.Context.TELEPHONY_SERVICE;
+import static android.net.ConnectivityManager.TYPE_BLUETOOTH;
+import static android.net.ConnectivityManager.TYPE_MOBILE;
+import static android.net.ConnectivityManager.TYPE_WIFI;
 import static java.util.Collections.unmodifiableMap;
 
 /**

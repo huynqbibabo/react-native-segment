@@ -1,6 +1,6 @@
 package analytics
 
-import com.facebook.react.BuildConfig
+import com.reactnativesegment.BuildConfig
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
