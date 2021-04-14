@@ -413,8 +413,6 @@ export module Segment {
 
     /** Retrieve the Facebook Ad Campaign Id. */
     public async getFacebookCampaignId(): Promise<string | null> {
-      await this.wrapper.wait();
-
       return Bridge.getFacebookCampaignId();
     }
 
