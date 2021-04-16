@@ -188,7 +188,6 @@ internal class SegmentIntegration(
     if (!shouldFlush()) {
       return
     }
-    logger.verbose("Uploading payloads in queue to Segment.")
     var payloadsUploaded = 0
     var connection: Client.Connection? = null
     try {

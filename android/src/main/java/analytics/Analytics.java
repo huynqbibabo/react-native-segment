@@ -68,7 +68,6 @@ import static analytics.internal.Utils.isNullOrEmpty;
  * #with(Context)} for the global singleton instance or construct your own instance
  * with {@link Builder}.
  *
- * @see <a href="https://Segment/">Segment</a>
  */
 public class Analytics {
 
@@ -446,7 +445,6 @@ public class Analytics {
    *                  #getDefaultOptions()
    * @throws IllegalArgumentException if both {@code userId} and {@code newTraits} are not
    *                                  provided
-   * @see <a href="https://segment.com/docs/spec/identify/">Identify Documentation</a>
    */
   public void identify(
     final @Nullable String userId,
@@ -507,7 +505,6 @@ public class Analytics {
    * @param options To configure the call, these override the defaultOptions, to extend use
    *                #getDefaultOptions()
    * @throws IllegalArgumentException if groupId is null or an empty string.
-   * @see <a href="https://segment.com/docs/spec/group/">Group Documentation</a>
    */
   public void group(
     @NonNull final String groupId,
@@ -560,7 +557,6 @@ public class Analytics {
    * @param options    To configure the call, these override the defaultOptions, to extend use
    *                   #getDefaultOptions()
    * @throws IllegalArgumentException if event name is null or an empty string.
-   * @see <a href="https://segment.com/docs/spec/track/">Track Documentation</a>
    */
   public void track(
     final @NonNull String event,
@@ -630,7 +626,6 @@ public class Analytics {
    * @param properties {@link Properties} to add extra information to this call.
    * @param options    To configure the call, these override the defaultOptions, to extend use
    *                   #getDefaultOptions()
-   * @see <a href="https://segment.com/docs/spec/screen/">Screen Documentation</a>
    */
   public void screen(
     @Nullable final String category,
@@ -687,7 +682,6 @@ public class Analytics {
    * @param options To configure the call, these override the defaultOptions, to extend use
    *                #getDefaultOptions()
    * @throws IllegalArgumentException if newId is null or empty
-   * @see <a href="https://segment.com/docs/tracking-api/alias/">Alias Documentation</a>
    */
   public void alias(final @NonNull String newId, final @Nullable Options options) {
     assertNotShutdown();
@@ -1060,7 +1054,6 @@ public class Analytics {
      * This method will be invoked once for each callback.
      *
      * @param instance The underlying instance that has been initialized with the settings from
-     *                 Segment.
      */
     void onReady(T instance);
   }
@@ -1403,10 +1396,8 @@ public class Analytics {
     }
 
     /**
-     * Set the default project settings to use, if Segment.com cannot be reached. An example
+     * Set the default project settings to use, if cannot be reached. An example
      * configuration can be found here, using your write key: <a
-     * href="https://cdn-settings.segment.com/v1/projects/YOUR_WRITE_KEY/settings">
-     * https://cdn-settings.segment.com/v1/projects/YOUR_WRITE_KEY/settings </a>
      */
     public Builder defaultProjectSettings(ValueMap defaultProjectSettings) {
       assertNotNull(defaultProjectSettings, "defaultProjectSettings");
@@ -1548,7 +1539,8 @@ public class Analytics {
         lifecycle,
         nanosecondTimestamps,
         useNewLifecycleMethods,
-        defaultApiHost);
+        defaultApiHost
+      );
     }
   }
 

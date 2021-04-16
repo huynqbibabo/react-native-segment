@@ -2,7 +2,6 @@ package analytics.integrations
 
 import analytics.internal.Private
 import analytics.internal.Utils
-import java.util.*
 
 class AliasPayload @Private internal constructor(
 //  messageId: String,

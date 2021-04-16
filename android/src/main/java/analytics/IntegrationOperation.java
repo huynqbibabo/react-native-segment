@@ -3,18 +3,16 @@ package analytics;
 import android.app.Activity;
 import android.os.Bundle;
 
-import analytics.integrations.AliasPayload;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import analytics.integrations.BasePayload;
 import analytics.integrations.GroupPayload;
 import analytics.integrations.IdentifyPayload;
 import analytics.integrations.Integration;
-import analytics.integrations.ScreenPayload;
 import analytics.integrations.TrackPayload;
 import analytics.internal.Private;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 import static analytics.Options.ALL_INTEGRATIONS_KEY;
 import static analytics.internal.Utils.isNullOrEmpty;

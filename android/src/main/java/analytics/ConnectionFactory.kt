@@ -13,11 +13,6 @@ open class ConnectionFactory {
   private fun authorizationHeader(writeKey: String): String {
     return "Bearer $writeKey"
   }
-  //    /** Return a {@link HttpURLConnection} that reads JSON formatted project settings. */
-  //    public HttpURLConnection projectSettings(String writeKey) throws IOException {
-  //        return openConnection(
-  //                "https://cdn-settings.segment.com/v1/projects/" + writeKey + "/settings");
-  //    }
   /**
    * Return a [HttpURLConnection] that writes batched payloads to `https://api.webhook_bibabo/v1/import`.
    */

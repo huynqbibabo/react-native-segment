@@ -3,7 +3,6 @@ package analytics.integrations
 import analytics.ValueMap
 import analytics.internal.Utils
 import androidx.annotation.CheckResult
-import java.util.*
 
 /**
  * A payload object that will be sent to the server. Clients will not decode instances of this
@@ -55,7 +54,6 @@ abstract class BasePayload internal constructor(
 //   *
 //   * This library will automatically create and attach a timestamp to all events.
 //   *
-//   * @see [Timestamp](https://segment.com/docs/spec/common/.timestamps)
 //   */
 //  fun timestamp(): Date? {
 //    // It's unclear if this will ever be null. So we're being safe.
@@ -82,7 +80,6 @@ abstract class BasePayload internal constructor(
 //   * The context is a dictionary of extra information that provides useful context about a
 //   * message, for example ip address or locale.
 //   *
-//   * @see [Context fields](https://segment.com/docs/spec/common/.context)
 //   */
 //  fun context(): AnalyticsContext {
 //    return getValueMap(CONTEXT_KEY, AnalyticsContext::class.java)
@@ -144,7 +141,6 @@ abstract class BasePayload internal constructor(
 //     * generated for you. This ID is typically used for deduping - messages with the same IDs as
 //     * previous events may be dropped.
 //     *
-//     * @see [Common Fields](https://segment.com/docs/spec/common/)
 //     */
 //    fun messageId(messageId: String): B {
 //      Utils.assertNotNullOrEmpty(messageId, "messageId")
@@ -159,7 +155,6 @@ abstract class BasePayload internal constructor(
 //     *
 //     * This library will automatically create and attach a timestamp to all events.
 //     *
-//     * @see [Timestamp](https://segment.com/docs/spec/common/.timestamps)
 //     */
 //    fun timestamp(timestamp: Date): B {
 //      Utils.assertNotNull(timestamp, "timestamp")
@@ -176,7 +171,6 @@ abstract class BasePayload internal constructor(
 //     * you automatically, depending on the library you send data from. Some keys, such as
 //     * location and speed need to be manually entered.
 //     *
-//     * @see [Context](https://segment.com/docs/spec/common/.context)
 //     */
 //    fun context(context: Map<String?, *>): B {
 //      Utils.assertNotNull(context, "context")
@@ -188,7 +182,6 @@ abstract class BasePayload internal constructor(
 //     * Set whether this message is sent to the specified integration or not. 'All' is a special
 //     * key that applies when no key for a specific integration is found.
 //     *
-//     * @see [Integrations](https://segment.com/docs/spec/common/.integrations)
 //     */
 //    fun integration(key: String, enable: Boolean): B {
 //      Utils.assertNotNullOrEmpty(key, "key")
@@ -203,7 +196,6 @@ abstract class BasePayload internal constructor(
 //     * Pass in some options that will only be used by the target integration. This will
 //     * implicitly mark the integration as enabled.
 //     *
-//     * @see [Integrations](https://segment.com/docs/spec/common/.integrations)
 //     */
 //    fun integration(key: String, options: Map<String, Any>): B {
 //      Utils.assertNotNullOrEmpty(key, "key")
@@ -218,7 +210,6 @@ abstract class BasePayload internal constructor(
 //    /**
 //     * Specify a dictionary of options for integrations.
 //     *
-//     * @see [Integrations](https://segment.com/docs/spec/common/.integrations)
 //     */
 //    fun integrations(integrations: Map<String?, *>?): B {
 //      if (Utils.isNullOrEmpty(integrations)) {
@@ -235,9 +226,6 @@ abstract class BasePayload internal constructor(
 //     * The Anonymous ID is a pseudo-unique substitute for a User ID, for cases when you don't
 //     * have an absolutely unique identifier.
 //     *
-//     * @see [Identities](https://segment.com/docs/spec/identify/.identities)
-//     *
-//     * @see [Anonymous ID](https://segment.com/docs/spec/identify/.anonymous-id)
 //     */
 //    fun anonymousId(anonymousId: String): B {
 //      this.anonymousId = Utils.assertNotNullOrEmpty(anonymousId, "anonymousId")
@@ -247,9 +235,6 @@ abstract class BasePayload internal constructor(
     /**
      * The User ID is a persistent unique identifier for a user (such as a database ID).
      *
-     * @see [Identities](https://segment.com/docs/spec/identify/.identities)
-     *
-     * @see [User ID](https://segment.com/docs/spec/identify/.user-id)
      */
     fun userId(userId: String): B {
       this.userId = Utils.assertNotNullOrEmpty(userId, "userId")

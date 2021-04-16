@@ -97,8 +97,6 @@ public class Properties extends ValueMap {
 
     /**
      * Set a path (usually the path of the URL) for the screen.
-     *
-     * @see <a href="https://segment.com/docs/api/tracking/page/#properties">Page Properties</a>
      */
     public Properties putPath(String path) {
         return putValue(PATH_KEY, path);
@@ -112,7 +110,6 @@ public class Properties extends ValueMap {
      * Set the referrer that led the user to the screen. In the browser it is the document.referrer
      * property.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/page/#properties">Page Properties</a>
      */
     public Properties putReferrer(String referrer) {
         return putValue(REFERRER_KEY, referrer);
@@ -125,7 +122,6 @@ public class Properties extends ValueMap {
     /**
      * Set the title of the screen.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/page/#properties">Page Properties</a>
      */
     public Properties putTitle(String title) {
         return putValue(TITLE_KEY, title);
@@ -138,7 +134,6 @@ public class Properties extends ValueMap {
     /**
      * Set a url for the screen.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/page/#properties">Page Properties</a>
      */
     public Properties putUrl(String url) {
         return putValue(URL_KEY, url);
@@ -151,7 +146,6 @@ public class Properties extends ValueMap {
     /**
      * Set the name of the product associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putName(String name) {
         return putValue(NAME_KEY, name);
@@ -165,7 +159,6 @@ public class Properties extends ValueMap {
      * Set a category for this action. You'll want to track all of your product category pages so
      * you can quickly see which categories are most popular.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putCategory(String category) {
         return putValue(CATEGORY_KEY, category);
@@ -178,7 +171,6 @@ public class Properties extends ValueMap {
     /**
      * Set a sku for the product associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putSku(String sku) {
         return putValue(SKU_KEY, sku);
@@ -191,7 +183,6 @@ public class Properties extends ValueMap {
     /**
      * Set a price (in dollars) for the product associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putPrice(double price) {
         return putValue(PRICE_KEY, price);
@@ -204,7 +195,6 @@ public class Properties extends ValueMap {
     /**
      * Set an ID for the product associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putProductId(String id) {
         return putValue(ID_KEY, id);
@@ -217,7 +207,6 @@ public class Properties extends ValueMap {
     /**
      * Set the order ID associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putOrderId(String orderId) {
         return putValue(ORDER_ID_KEY, orderId);
@@ -230,7 +219,6 @@ public class Properties extends ValueMap {
     /**
      * Set the total amount (in dollars) for an order associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putTotal(double total) {
         return putValue(TOTAL_KEY, total);
@@ -252,7 +240,6 @@ public class Properties extends ValueMap {
      * Set the subtotal (in dollars) for an order associated with an event (excluding tax and
      * shipping).
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putSubtotal(double subtotal) {
         return putValue(SUBTOTAL_KEY, subtotal);
@@ -271,7 +258,6 @@ public class Properties extends ValueMap {
     /**
      * Set the shipping amount (in dollars) for an order associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putShipping(double shipping) {
         return putValue(SHIPPING_KEY, shipping);
@@ -284,7 +270,6 @@ public class Properties extends ValueMap {
     /**
      * Set the tax amount (in dollars) for an order associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putTax(double tax) {
         return putValue(TAX_KEY, tax);
@@ -297,7 +282,6 @@ public class Properties extends ValueMap {
     /**
      * Set the discount amount (in dollars) for an order associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putDiscount(double discount) {
         return putValue(DISCOUNT_KEY, discount);
@@ -310,7 +294,6 @@ public class Properties extends ValueMap {
     /**
      * Set a coupon name for an order associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putCoupon(String coupon) {
         return putValue(COUPON_KEY, coupon);
@@ -323,7 +306,6 @@ public class Properties extends ValueMap {
     /**
      * Set the individual products for an order associated with an event.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putProducts(Product... products) {
         if (isNullOrEmpty(products)) {
@@ -346,7 +328,6 @@ public class Properties extends ValueMap {
     /**
      * Set whether an order associated with an event is from a repeating customer.
      *
-     * @see <a href="https://segment.com/docs/api/tracking/ecommerce/">Ecommerce API</a>
      */
     public Properties putRepeatCustomer(boolean repeat) {
         return putValue(REPEAT_KEY, repeat);
