@@ -91,6 +91,12 @@ segment
         scheme: 'http',
         port: 80,
       },
+      android: {
+        collectDeviceId: false,
+      },
+      ios: {
+        trackAdvertising: false,
+      },
     }
   )
   .then(() => console.log('Analytics ready'))
