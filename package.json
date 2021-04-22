@@ -1,5 +1,5 @@
 {
-  "name": "react-native-segment",
+  "name": "@bibabovn/react-native-segment",
   "version": "1.1.5",
   "description": "Native segment control",
   "main": "lib/commonjs/index",
