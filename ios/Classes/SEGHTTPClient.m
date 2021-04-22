@@ -3,11 +3,11 @@
 #import "SEGAnalyticsUtils.h"
 #import "SEGUtils.h"
 
-#define SEGMENT_CDN_BASE [NSURL URLWithString:@"https://segment.bibabo.vn/api/v1"]
+#define SEGMENT_CDN_BASE [NSURL URLWithString:@"https://one.bibabo.vn"]
 
 static const NSUInteger kMaxBatchSize = 475000; // 475KB
 
-NSString * const kSegmentAPIBaseHost = @"https://segment.bibabo.vn/api/v1";
+NSString * const kSegmentAPIBaseHost = @"https://one.bibabo.vn";
 
 @implementation SEGHTTPClient
 

@@ -14,7 +14,7 @@ open class ConnectionFactory {
     return "Bearer $writeKey"
   }
   /**
-   * Return a [HttpURLConnection] that writes batched payloads to `https://api.webhook_bibabo/v1/import`.
+   * Return a [HttpURLConnection] that writes batched payloads to `https://api.webhook/v1/import`.
    */
   @Throws(IOException::class)
   fun upload(apiHost: String?, writeKey: String): HttpURLConnection {

@@ -244,7 +244,7 @@ export module Segment {
      * })
      * ```
      *
-     * @param writeKey Your Segment.io write key
+     * @param writeKey Your server write key
      * @param configuration An optional {@link Configuration} object.
      */
     public async setup(writeKey: string, configuration: Configuration = {}) {

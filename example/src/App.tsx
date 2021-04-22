@@ -35,10 +35,38 @@ const logAnonymousId = async () => {
 
 export default class App extends Component {
   componentDidMount() {
-    segment.getFacebookCampaignId().then((id) => {
-      console.log(id);
-    });
-    segment.identify('9999');
+    const integrations: Segment.Integration[] = [];
+
+    segment
+      .setup(
+        'eyJDVCI6MCwiQ0kiOjEsIlVJIjo4Mzg1NzksIlNFIjoiMTYxODIwOTY0MzE4NTQ3MjEifQ',
+        {
+          debug: true,
+          using: integrations,
+          flushAt: 3,
+          proxy: {
+            host: 'segment.bbbnet.xyz',
+            path: 'api/v1/log-event',
+            scheme: 'http',
+            port: 80,
+          },
+          android: {
+            collectDeviceId: false,
+          },
+          ios: {
+            trackAdvertising: false,
+          },
+        }
+      )
+      .then(() => {
+        console.log('Analytics ready');
+
+        segment.getFacebookCampaignId().then((id) => {
+          console.log(id);
+        });
+        segment.identify('9999');
+      })
+      .catch((err: any) => console.error(err));
   }
 
   render() {
@@ -76,28 +104,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#32A75D',
   },
 });
-const integrations: Segment.Integration[] = [];
-
-segment
-  .setup(
-    'eyJDVCI6MCwiQ0kiOjEsIlVJIjo4Mzg1NzksIlNFIjoiMTYxODIwOTY0MzE4NTQ3MjEifQ',
-    {
-      debug: true,
-      using: integrations,
-      flushAt: 3,
-      proxy: {
-        host: 'segment.bbbnet.xyz',
-        path: 'api/v1/log-event',
-        scheme: 'http',
-        port: 80,
-      },
-      android: {
-        collectDeviceId: false,
-      },
-      ios: {
-        trackAdvertising: false,
-      },
-    }
-  )
-  .then(() => console.log('Analytics ready'))
-  .catch((err: any) => console.error(err));
