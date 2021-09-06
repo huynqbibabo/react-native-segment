@@ -1,5 +1,7 @@
 package analytics
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
@@ -30,6 +32,7 @@ open class ConnectionFactory {
   /**
    * Configures defaults for connections opened with [.upload]
    */
+  @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
   @Throws(IOException::class)
   protected open fun openConnection(url: String): HttpURLConnection {
     val requestedURL: URL = try {
@@ -41,7 +44,6 @@ open class ConnectionFactory {
     connection.connectTimeout = DEFAULT_CONNECT_TIMEOUT_MILLIS
     connection.readTimeout = DEFAULT_READ_TIMEOUT_MILLIS
     connection.setRequestProperty("Content-Type", "application/json")
-    connection.setRequestProperty("User-Agent", USER_AGENT)
     connection.doInput = true
     return connection
   }
@@ -49,6 +51,5 @@ open class ConnectionFactory {
   companion object {
     private const val DEFAULT_READ_TIMEOUT_MILLIS = 20 * 1000 // 20s
     private const val DEFAULT_CONNECT_TIMEOUT_MILLIS = 15 * 1000 // 15s
-    const val USER_AGENT = "analytics-android/1.0"
   }
 }

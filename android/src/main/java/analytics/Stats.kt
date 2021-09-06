@@ -57,7 +57,9 @@ class Stats {
       Collections.unmodifiableMap(integrationOperationDurationByIntegration))
   }
 
-  class StatsHandler internal constructor(looper: Looper?, private val stats: Stats) : Handler(looper) {
+  class StatsHandler internal constructor(looper: Looper?, private val stats: Stats) : Handler(
+    looper!!
+  ) {
     override fun handleMessage(msg: Message) {
       when (msg.what) {
         TRACK_FLUSH -> stats.performFlush(msg.arg1)

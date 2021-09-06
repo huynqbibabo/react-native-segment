@@ -48,7 +48,6 @@ export default class App extends Component {
             host: 'segment.bbbnet.xyz',
             path: 'api/v1/log-event',
             scheme: 'http',
-            port: 80,
           },
           android: {
             collectDeviceId: false,
