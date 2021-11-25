@@ -28,6 +28,7 @@ import { InjectContext } from './plugins/Context';
 import type { DestinationPlugin, PlatformPlugin, Plugin } from './plugin';
 import type { actions as ReduxActions } from './store';
 import { applyRawEventData } from './events';
+import { NativeModules } from 'react-native';
 
 export class SegmentClient {
   // the config parameters for the client - a merge of user provided and default options
@@ -378,6 +379,11 @@ export class SegmentClient {
 
   refreshToken(token: string) {
     this.config.proxy = { ...this.config.proxy, token: token };
+  }
+
+  async getInstallCampaignId() {
+    const { RNSegment } = NativeModules;
+    return RNSegment.getInstallCampaignId();
   }
 
   /**

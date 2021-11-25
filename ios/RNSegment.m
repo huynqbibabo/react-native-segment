@@ -14,7 +14,7 @@ RCT_EXPORT_MODULE()
 
 static NSString* singletonJsonConfig = nil;
 
-RCT_EXPORT_METHOD(getFacebookCampaignId:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(getInstallCampaignId:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 {
     @try {
         SEGFacebook* rnAnalytics = [SEGFacebook sharedManager];

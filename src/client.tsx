@@ -125,6 +125,7 @@ export const useSegment = (): ClientMethods => {
     alias: (...args) => client.alias(...args),
     refreshToken: (...args) => client.refreshToken(...args),
     reset: () => client.reset(),
+    getInstallCampaignId: async () => client.getInstallCampaignId(),
   };
 };
 

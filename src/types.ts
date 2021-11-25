@@ -168,6 +168,7 @@ export type ClientMethods = {
   alias: (newUserId: string) => void;
   reset: () => void;
   refreshToken: (token: string) => void;
+  getInstallCampaignId: () => Promise<string | null>;
 };
 
 type ContextApp = {
