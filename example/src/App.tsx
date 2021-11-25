@@ -1,105 +1,232 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import segment from 'react-native-segment';
-import type { Segment } from 'react-native-segment';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo } from 'react';
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  SafeAreaView,
+} from 'react-native';
+import {
+  AnalyticsProvider,
+  createClient,
+  useAnalytics,
+} from 'react-native-segment';
+import { Navigation } from 'react-native-navigation';
 
-const Button = ({ title, onPress }: { title: string; onPress: () => void }) => (
-  <TouchableOpacity style={styles.button} onPress={onPress}>
-    <Text style={styles.text}>{title}</Text>
-  </TouchableOpacity>
-);
+const screenWidth = Dimensions.get('screen').width;
 
-const flush = () => segment.flush();
+const Home = () => {
+  const { screen, track, identify, group, alias, reset, flush, refreshToken } =
+    useAnalytics();
 
-const pizzaEaten = () => {
-  segment.track('post_view', {
-    postId: 9999,
-    groupId: 9696,
-    topicIds: '96,69,96,69',
-  });
-};
-
-const trackOrder = () => {
-  segment.track('product_view', {
-    productId: 123456,
-    categoryId: 3333,
-  });
-};
-
-const logAnonymousId = async () => {
-  segment.track('add_to_cart', {
-    productId: 123456,
-    categoryId: 3333,
-  });
-};
-
-export default class App extends Component {
-  componentDidMount() {
-    const integrations: Segment.Integration[] = [];
-
-    segment
-      .setup(
-        'eyJDVCI6MCwiQ0kiOjEsIlVJIjo4Mzg1NzksIlNFIjoiMTYxODIwOTY0MzE4NTQ3MjEifQ',
-        {
-          debug: true,
-          using: integrations,
-          flushAt: 3,
-          proxy: {
-            host: 'segment.bbbnet.xyz',
-            path: 'api/v1/log-event',
-            scheme: 'http',
-          },
-          android: {
-            collectDeviceId: false,
-          },
-          ios: {
-            trackAdvertising: false,
-          },
-        }
-      )
-      .then(() => {
-        console.log('Analytics ready');
-
-        segment.getFacebookCampaignId().then((id) => {
-          console.log(id);
-        });
-        segment.identify('9999');
-      })
-      .catch((err: any) => console.error(err));
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: 'https://i.imgur.com/GrCdId0.png' }}
-          resizeMode="contain"
-          style={{
-            margin: 50,
-            width: 240,
-            height: 160,
-          }}
-        />
-        <Button title="Track: Order Complete" onPress={trackOrder} />
-        <Button title="Flush" onPress={flush} />
-        <Button title="Track: Pizza Eaten" onPress={pizzaEaten} />
-        <Button title="Log anonymousId" onPress={logAnonymousId} />
-      </View>
+  useEffect(() => {
+    refreshToken(
+      'eyJDVCI6MCwiQ0kiOjEsIlVJIjozMjc4LCJTRSI6IjE1Nzk0OTA4MjgxNjE5MDU3In0'
     );
-  }
-}
+  });
+
+  const analyticsEvents = useMemo(() => {
+    return [
+      {
+        color: colors.green,
+        name: 'Track',
+        testID: 'BUTTON_TRACK',
+        onPress: () => {
+          track('post_view', {
+            postId: 123456,
+            categoryId: 3333,
+            groupId: 1111,
+            topicId: 22222,
+          });
+        },
+      },
+      {
+        color: colors.darkGreen,
+        name: 'Screen',
+        testID: 'BUTTON_SCREEN',
+        onPress: () => {
+          screen('Home Screen', { foo: 'bar' });
+        },
+      },
+      {
+        color: colors.purple,
+        name: 'Identify',
+        testID: 'BUTTON_IDENTIFY',
+        onPress: () => {
+          identify('user_2', { username: 'simplyTheBest' });
+        },
+      },
+      {
+        color: colors.lightPurple,
+        name: 'Group',
+        testID: 'BUTTON_GROUP',
+        onPress: () => group('best-group', { companyId: 'Lala' }),
+      },
+      {
+        color: colors.indigo,
+        name: 'Alias',
+        testID: 'BUTTON_ALIAS',
+        onPress: () => alias('new-id'),
+      },
+    ];
+  }, []);
+
+  const clientEvents = [
+    {
+      color: colors.pink,
+      name: 'Flush',
+      testID: 'BUTTON_FLUSH',
+      onPress: () => flush(),
+    },
+    {
+      color: colors.orange,
+      name: 'Reset',
+      testID: 'BUTTON_RESET',
+      onPress: () => reset(),
+    },
+  ];
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.page}>
+        <Text style={styles.title}>Analytics Events</Text>
+        <View style={styles.section}>
+          {analyticsEvents.map((item) => (
+            <TouchableOpacity
+              key={item.name}
+              style={[styles.button, { backgroundColor: item.color }]}
+              onPress={item.onPress}
+              testID={item.testID}
+            >
+              <Text style={styles.text}>{item.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <Text style={styles.title}>Client Events</Text>
+        <View style={styles.section}>
+          {clientEvents.map((item) => (
+            <TouchableOpacity
+              key={item.name}
+              style={[styles.trackingButton, { backgroundColor: item.color }]}
+              onPress={item.onPress}
+              testID={item.testID}
+            >
+              <Text style={styles.text}>{item.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <Text style={styles.title}>Navigation</Text>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const colors = {
+  green: '#52bd95',
+  darkGreen: '#28a745',
+  acai: '#5c4d6b',
+  purple: '#6152bd',
+  lightPurple: '#6f42c1',
+  indigo: '#6610f2',
+  pink: '#e83e8c',
+  red: '#dc3545',
+  orange: '#fd7e14',
+  yellow: '#ffc107',
+  darkBlue: '#262e4f',
+};
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.darkBlue },
+  page: {
+    flex: 1,
+    paddingTop: 30,
+  },
+  trackingButton: {
+    marginVertical: 5,
+    marginHorizontal: 5,
+    paddingHorizontal: 0,
+    paddingVertical: 16,
+    backgroundColor: colors.green,
+    borderRadius: 8,
+    width: screenWidth / 3 - 20,
+  },
   button: {
-    margin: 20,
+    marginVertical: 8,
+    marginHorizontal: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
+    backgroundColor: colors.green,
+    borderRadius: 8,
+    width: screenWidth / 1.5,
   },
   text: {
-    color: '#FBFAF9',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 24,
+    textAlign: 'center',
   },
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#32A75D',
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  section: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: 40,
+  },
+  mainHeading: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 20,
   },
 });
+
+export default function start() {
+  const segmentClient = createClient({
+    writeKey: 'segment.client',
+    trackAppLifecycleEvents: false,
+    flushAt: 5,
+    proxy: {
+      path: 'api/logs/events',
+      host: 'one.bibabo.vn',
+    },
+  });
+
+  Navigation.registerComponent('example.app', () => {
+    return (props) => (
+      <AnalyticsProvider client={segmentClient}>
+        <Home {...props} />
+      </AnalyticsProvider>
+    );
+  });
+
+  Navigation.events().registerAppLaunchedListener(() => {
+    Navigation.setRoot({
+      root: {
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'example.app',
+              },
+            },
+          ],
+          options: {
+            topBar: { visible: false },
+          },
+        },
+      },
+    });
+  });
+}
