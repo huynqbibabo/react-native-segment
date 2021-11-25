@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react';
 import {
   View,
@@ -10,9 +9,9 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {
-  AnalyticsProvider,
+  SegmentProvider,
   createClient,
-  useAnalytics,
+  useSegment,
 } from 'react-native-segment';
 import { Navigation } from 'react-native-navigation';
 
@@ -20,13 +19,14 @@ const screenWidth = Dimensions.get('screen').width;
 
 const Home = () => {
   const { screen, track, identify, group, alias, reset, flush, refreshToken } =
-    useAnalytics();
+    useSegment();
 
   useEffect(() => {
     refreshToken(
       'eyJDVCI6MCwiQ0kiOjEsIlVJIjozMjc4LCJTRSI6IjE1Nzk0OTA4MjgxNjE5MDU3In0'
     );
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const analyticsEvents = useMemo(() => {
     return [
@@ -72,6 +72,7 @@ const Home = () => {
         onPress: () => alias('new-id'),
       },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const clientEvents = [
@@ -205,9 +206,9 @@ export default function start() {
 
   Navigation.registerComponent('example.app', () => {
     return (props) => (
-      <AnalyticsProvider client={segmentClient}>
+      <SegmentProvider client={segmentClient}>
         <Home {...props} />
-      </AnalyticsProvider>
+      </SegmentProvider>
     );
   });
 

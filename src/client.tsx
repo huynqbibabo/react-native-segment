@@ -85,7 +85,7 @@ export const createClient = (config: Config) => {
 
 const Context = createContext<SegmentClient | null>(null);
 
-export const AnalyticsProvider = ({
+export const SegmentProvider = ({
   client,
   children,
 }: {
@@ -105,12 +105,12 @@ export const AnalyticsProvider = ({
   );
 };
 
-export const useAnalytics = (): ClientMethods => {
+export const useSegment = (): ClientMethods => {
   const client = useContext(Context);
   if (!client) {
     console.error(
       'Segment client not configured!',
-      'To use the useAnalytics() hook, pass an initialized Segment client into the AnalyticsProvider'
+      'To use the useSegment() hook, pass an initialized Segment client into the SegmentProvider'
     );
 
     // @ts-ignore
