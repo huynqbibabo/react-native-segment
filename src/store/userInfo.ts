@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { UserTraits } from '../types';
-import { getUUID } from '../uuid';
 
 type UserInfoState = {
   anonymousId: string;
@@ -9,7 +8,7 @@ type UserInfoState = {
 };
 
 export const initialState: UserInfoState = {
-  anonymousId: getUUID(),
+  anonymousId: '',
   userId: undefined,
   traits: undefined,
 };
@@ -19,7 +18,7 @@ export default createSlice({
   initialState,
   reducers: {
     reset: () => ({
-      anonymousId: getUUID(),
+      anonymousId: '',
       userId: undefined,
       traits: undefined,
     }),
