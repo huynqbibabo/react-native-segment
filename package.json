@@ -1,6 +1,6 @@
 {
   "name": "@bibabovn/react-native-segment",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "Native segment control",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
