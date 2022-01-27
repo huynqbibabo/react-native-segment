@@ -137,25 +137,25 @@ export type Config = {
      *
      * `https` by default.
      */
-    scheme?: string;
+    scheme: string;
     /**
      * The proxy host name, ex: api.segment.io, cdn.segment.io
      *
      * Note: When using localhost with an Android device or simulator use `adb reverse tcp:<port> tcp:<port>`
      */
-    host?: string;
+    host: string;
     /**
      * The proxy port number, ex: 80
      */
-    port?: number;
+    port: number;
     /**
      * The proxy path, ex: /path/to/proxy
      */
-    path?: string;
+    path: string;
     /**
      * The proxy auth token
      */
-    token?: string;
+    token: string;
   };
 };
 

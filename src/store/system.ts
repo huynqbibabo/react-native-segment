@@ -19,11 +19,8 @@ export default createSlice({
     init: (state, action: PayloadAction<{ configuration: Config }>) => {
       state.configuration = action.payload.configuration;
     },
-    updateSettings: (
-      state,
-      action: PayloadAction<{ settings: SegmentAPISettings }>
-    ) => {
-      state.settings = action.payload.settings;
+    updateSettings: (state, action: PayloadAction<{ settings: Config }>) => {
+      state.configuration = action.payload.settings;
     },
     addIntegrations: (state, action: PayloadAction<{ key: string }[]>) => {
       // we need to set any destination plugins to false in the

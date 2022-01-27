@@ -20,7 +20,6 @@ import alias from './methods/alias';
 import checkInstalledVersion from './internal/checkInstalledVersion';
 import handleAppStateChange from './internal/handleAppStateChange';
 import flushRetry from './internal/flushRetry';
-import getSettings from './internal/getSettings';
 import trackDeepLinks from './internal/trackDeepLinks';
 import { Timeline } from './timeline';
 import { SegmentDestination } from './plugins/SegmentDestination';
@@ -137,10 +136,6 @@ export class SegmentClient {
     this.store.dispatch(
       this.actions.system.init({ configuration: this.config })
     );
-  }
-
-  async getSettings() {
-    await getSettings.bind(this)();
   }
 
   /**
@@ -378,7 +373,14 @@ export class SegmentClient {
   }
 
   refreshToken(token: string) {
-    this.config.proxy = { ...this.config.proxy, token: token };
+    const config: Config = {
+      ...this.config,
+      proxy: { ...this.config.proxy, token: token },
+    };
+    this.config = config;
+    this.store.dispatch(
+      this.actions.system.updateSettings({ settings: this.config })
+    );
   }
 
   async getInstallCampaignId() {

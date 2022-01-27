@@ -18,6 +18,7 @@ export const defaultConfig: Config = {
   trackAppLifecycleEvents: false,
   autoAddSegmentDestination: true,
   proxy: {
+    token: '',
     path: '',
     port: 80,
     host: '',
@@ -28,9 +29,6 @@ export const defaultConfig: Config = {
 const doClientSetup = async (client: SegmentClient) => {
   // make sure the persisted store is fetched
   await client.bootstrapStore();
-
-  // get destination settings
-  await client.getSettings();
 
   // flush any stored events
   client.flush();

@@ -25,8 +25,7 @@ export const sendEvents = async ({
     // context: events[0].context,
     // integrations: events[0].integrations,
   };
-  if (config.debug) console.log(body);
-  await fetch(
+  const response = await fetch(
     `${config.proxy.scheme}://${config.proxy.host}/${config.proxy.path}`,
     {
       method: 'POST',
@@ -37,4 +36,13 @@ export const sendEvents = async ({
       },
     }
   );
+  if (config.debug) {
+    const result = await response.json();
+    console.log(
+      'Upload batch:',
+      JSON.stringify(body),
+      'with response: ',
+      result
+    );
+  }
 };

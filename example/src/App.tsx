@@ -210,13 +210,16 @@ const styles = StyleSheet.create({
 
 export default function start() {
   const segmentClient = createClient({
-    debug: false,
+    debug: true,
     writeKey: 'segment.client',
     trackAppLifecycleEvents: false,
     flushAt: 5,
     proxy: {
       path: '',
       host: '',
+      scheme: 'https',
+      token: '',
+      port: 80,
     },
   });
 
